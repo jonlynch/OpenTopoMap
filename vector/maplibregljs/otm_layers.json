@@ -174,7 +174,7 @@ const otm_layers = [
 {
 	"id": "water-polygon-labels",
 	"source": "opentopomap-vector",
-	"source-layer": "water_polygon_labels",
+	"source-layer": "water_polygons_labels",
 	"type": "symbol",
 	"layout": {
         "text-field": "{name}",

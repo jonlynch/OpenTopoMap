@@ -709,7 +709,7 @@ function process_streets()
 			mz = 13
 		elseif highway == "service" then
 			mz = 12
-		elseif highway == "footway" or highway == "steps" or highway == "path" or highway == "cycleway" then
+		elseif highway == "footway" or highway == "steps" or highway == "path" or highway == "cycleway" or highway == "bridleway" then
 			mz = 13
 		end
 	elseif (railway == "rail" or railway == "narrow_gauge") and service == "" then

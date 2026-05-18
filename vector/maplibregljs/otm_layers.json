@@ -701,7 +701,7 @@ const otm_layers = [
 	"layout": {
         "symbol-placement": "point",
         "text-field": "{name}",
-        "text-size": ['step',['zoom'],0,15, 9,16, 10],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 16, 11],
         "text-anchor": "top",
         "text-offset": [0,0.5],
         "text-font": [

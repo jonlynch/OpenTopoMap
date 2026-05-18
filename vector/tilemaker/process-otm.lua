@@ -14,7 +14,7 @@ end
 function exit_function()
 end
 
-node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "sport", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename", "power" }
+node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "sport", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename", "power", "natural" }
 
 -- Management of accepted key-value pairs for the "pois" layer.
 -- We write only whitelisted tags to the shape file.
@@ -67,7 +67,8 @@ poi_shop_values = Set { "supermarket", "bakery", "kiosk", "mall", "department_st
 	"dry_cleaning" }
 poi_man_made_values = Set { "surveillance", "communications_tower", "tower", "mast", "chimney", "cross", "mindshaft", "adit", "windmill", "lighthouse", "wastewater_plant",
 	"water_well", "watermill", "water_tower", "water_works" }
-poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano" }
+poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano", "saddle",
+	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath" }
 poi_historic_values = Set { "monument", "memorial", "castle", "ruins", "archaeological_site",
 	"wayside_cross", "wayside_shrine", "battlefield", "fort" }
 poi_emergency_values = Set { "phone", "fire_hydrant", "defibrillator" }
@@ -1257,6 +1258,33 @@ function process_pois(polygon)
 			type_tag = "peak"
 		end
 		mz = 12
+	elseif natural == "saddle" then
+		type_tag = "saddle"
+		mz = 12
+	elseif natural == "fell" then
+		type_tag = "fell"
+		mz = 12
+	elseif natural == "valley" then
+		type_tag = "valley"
+		mz = 12
+	elseif natural == "bay" then
+		type_tag = "bay"
+		mz = 11
+	elseif natural == "ridge" then
+		type_tag = "ridge"
+		mz = 12
+	elseif natural == "moor" then
+		type_tag = "moor"
+		mz = 12
+	elseif natural == "cape" or natural == "peninsula" then
+		type_tag = "cape"
+		mz = 12
+	elseif natural == "heath" then
+		type_tag = "heath"
+		mz = 13
+	elseif natural == "wetland" and name ~= "" then
+		type_tag = "wetland"
+		mz = 13
 	elseif man_made == "cross" then
 		type_tag = "cross"
 		mz = 13

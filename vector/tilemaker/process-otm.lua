@@ -389,7 +389,7 @@ function process_water_polygons(way_area)
 		ZOrder(way_area)
 		if Holds("name") then
 			LayerAsCentroid("water_polygons_labels")
-			MinZoom(14)
+			MinZoom(math.min(14, math.max(9, zmin_for_area(50, way_area))))
 			Attribute("type", kind)
 			AttributeNumeric("way_area", way_area)
 			ZOrder(way_area)

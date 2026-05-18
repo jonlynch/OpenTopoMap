@@ -1064,30 +1064,57 @@ function process_natural(poly_or_line)
 	local natural_values = Set { "cliff", "crevasse" }
 	local man_made_values = Set { "embankment", "dyke", "breakwater", "pier", "groyne" }
 	local barrier_values = Set { "ditch", "city_wall" }
-	
+	local barrier_structure_values = Set { "wall", "fence", "retaining_wall", "hedge", "guard_rail", "wire_fence", "chain_link_fence" }
+
 	local waterway = valueAcceptedOrNil(waterway_values, Find("waterway"))
 	local natural = valueAcceptedOrNil(natural_values, Find("natural"))
 	local man_made = valueAcceptedOrNil(man_made_values, Find("man_made"))
 	local barrier = valueAcceptedOrNil(barrier_values, Find("barrier"))
-	
-	if waterway == nil and natural == nil and man_made == nil and barrier == nil then
+
+	-- Walls and fences: active, abandoned, or disused
+	local barrier_structure = valueAcceptedOrNil(barrier_structure_values, Find("barrier"))
+	local lifecycle = nil
+	if barrier_structure == nil then
+		local ab = valueAcceptedOrNil(barrier_structure_values, Find("abandoned:barrier"))
+		local di = valueAcceptedOrNil(barrier_structure_values, Find("disused:barrier"))
+		if ab ~= nil then
+			barrier_structure = ab
+			lifecycle = "abandoned"
+		elseif di ~= nil then
+			barrier_structure = di
+			lifecycle = "disused"
+		end
+	elseif Find("ruins") == "yes" then
+		lifecycle = "abandoned"
+	end
+
+	if waterway == nil and natural == nil and man_made == nil and barrier == nil and barrier_structure == nil then
 		return false
 	end
-	
+
 	if poly_or_line then
 		Layer("natural_polygons", true)
 	else
 		Layer("natural_lines", false)
 	end
-	
-	mz = 12
-	--Attribute("waterway", nilToEmptyStr(waterway))
-	--Attribute("natural", nilToEmptyStr(natural))
-	--Attribute("man_made", nilToEmptyStr(man_made))
-	--Attribute("barrier", nilToEmptyStr(barrier))
-	local type_str = waterway or natural or man_made or barrier
-	Attribute("type",nilToEmptyStr(type_str))
-	
+
+	local mz = 12
+	local type_str
+	if barrier_structure ~= nil then
+		mz = 14
+		type_str = barrier_structure
+		if lifecycle ~= nil then
+			Attribute("lifecycle", lifecycle)
+		end
+	else
+		--Attribute("waterway", nilToEmptyStr(waterway))
+		--Attribute("natural", nilToEmptyStr(natural))
+		--Attribute("man_made", nilToEmptyStr(man_made))
+		--Attribute("barrier", nilToEmptyStr(barrier))
+		type_str = waterway or natural or man_made or barrier
+	end
+	Attribute("type", nilToEmptyStr(type_str))
+
 	MinZoom(mz)
 	
 	--if Find("waterway") == "dam" then
@@ -1302,12 +1329,12 @@ function way_function()
 	local is_area_default_linear = area_yes_multi_boundary
 
 	-- Layers water_polygons, water_polygons_labels, dam_polygons
-	if is_area and (Holds("waterway") or Holds("natural") or Holds("landuse") or Holds("barrier") or Holds("man_made") or Holds("leisure")) then
+	if is_area and (Holds("waterway") or Holds("natural") or Holds("landuse") or Holds("barrier") or Holds("abandoned:barrier") or Holds("disused:barrier") or Holds("man_made") or Holds("leisure")) then
 		process_water_polygons(area)
 		process_natural(true)
 	end
 	-- Layers water_lines, water_lines_labels, dam_lines
-	if not is_area and (Holds("waterway") or Holds("natural") or Holds("landuse") or Holds("barrier") or Holds("man_made")) then
+	if not is_area and (Holds("waterway") or Holds("natural") or Holds("landuse") or Holds("barrier") or Holds("abandoned:barrier") or Holds("disused:barrier") or Holds("man_made")) then
 		process_water_lines()
 		process_natural(false)
 	end

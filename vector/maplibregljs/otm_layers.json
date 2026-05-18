@@ -206,12 +206,35 @@ const otm_layers = [
 	"source-layer": "natural_lines",
 	"type": "line",
 	"paint": {
-		"line-color": ["match", ["get", "type"],["cliff","city_wall","embankment"],"black", "pier","#777", "weir","#999", ["dam","crevasse","dyke","breakwater","groyne"],"red", "green"],
+		"line-color": ["match", ["get", "type"],
+			["cliff","city_wall","embankment"], "black",
+			["wall","retaining_wall"], "#444",
+			["fence","guard_rail","wire_fence","chain_link_fence"], "#666",
+			"hedge", "#5a9e35",
+			"pier", "#777",
+			"weir", "#999",
+			["dam","crevasse","dyke","breakwater","groyne"], "red",
+			"green"
+		],
 		"line-width": [
 			"interpolate", ["linear"], ["zoom"],
-			 10, ["match", ["get", "type"], ["cliff","city_wall","embankment"],0.5, "dam",2.0, 1.0],
-			 17, ["match", ["get", "type"], ["cliff","city_wall","embankment"],0.5, "dam",3.0, 2.0]
+			10, ["match", ["get", "type"],
+				["cliff","city_wall","embankment"], 0.5,
+				["wall","retaining_wall"], 0.5,
+				["fence","guard_rail","wire_fence","chain_link_fence","hedge"], 0.4,
+				"dam", 2.0, 1.0
+			],
+			17, ["match", ["get", "type"],
+				["cliff","city_wall","embankment"], 0.5,
+				["wall","retaining_wall"], 1.5,
+				["fence","guard_rail","wire_fence","chain_link_fence","hedge"], 1.0,
+				"dam", 3.0, 2.0
+			]
 		],
+		"line-opacity": ["match", ["get", "lifecycle"],
+			["abandoned", "disused"], 0.45,
+			1.0
+		]
 	}
 },
 {
@@ -229,6 +252,25 @@ const otm_layers = [
 		"line-width": ["interpolate",["linear"],["zoom"],12,1, 17,3],
 		"line-offset": ["interpolate",["linear"],["zoom"],12,0.5, 17,1.5],
 		"line-dasharray": [1,1],
+	}
+},
+{
+	"id": "fence-dashes",
+	"source": "opentopomap-vector",
+	"source-layer": "natural_lines",
+	"filter": ["match", ["get", "type"],
+		["fence","guard_rail","wire_fence","chain_link_fence"], true, false
+	],
+	"minzoom": 14,
+	"type": "line",
+	"paint": {
+		"line-color": "#333",
+		"line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.5, 17, 1.2],
+		"line-dasharray": [2, 3],
+		"line-opacity": ["match", ["get", "lifecycle"],
+			["abandoned", "disused"], 0.45,
+			1.0
+		]
 	}
 },
 {

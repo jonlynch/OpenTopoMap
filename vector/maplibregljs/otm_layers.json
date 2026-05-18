@@ -295,7 +295,7 @@ const otm_layers = [
 	"filter": [
 		"all",
 		["!=", "bridge", true],
-		["!=", "type", "path"]
+		["!in", "type", "path", "footway", "steps", "cycleway", "bridleway"]
 	],
 	"type": "line",
 	"paint": {
@@ -327,7 +327,7 @@ const otm_layers = [
 	"filter": [
 		"all",
 		["!=", "bridge", true],
-		["==", "type", "path"],
+		["in", "type", "path", "footway", "steps", "cycleway", "bridleway"],
 	],
 	"type": "line",
 	"paint": {

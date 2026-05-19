@@ -14,7 +14,7 @@ end
 function exit_function()
 end
 
-node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "sport", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename", "power" }
+node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "sport", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename", "power", "natural" }
 
 -- Management of accepted key-value pairs for the "pois" layer.
 -- We write only whitelisted tags to the shape file.
@@ -67,7 +67,8 @@ poi_shop_values = Set { "supermarket", "bakery", "kiosk", "mall", "department_st
 	"dry_cleaning" }
 poi_man_made_values = Set { "surveillance", "communications_tower", "tower", "mast", "chimney", "cross", "mindshaft", "adit", "windmill", "lighthouse", "wastewater_plant",
 	"water_well", "watermill", "water_tower", "water_works" }
-poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano" }
+poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano", "saddle",
+	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath" }
 poi_historic_values = Set { "monument", "memorial", "castle", "ruins", "archaeological_site",
 	"wayside_cross", "wayside_shrine", "battlefield", "fort" }
 poi_emergency_values = Set { "phone", "fire_hydrant", "defibrillator" }
@@ -495,11 +496,15 @@ function process_land()
 	local natural = Find("natural")
 	local wetland = Find("wetland")
 	local leisure = Find("leisure")
+	local leaf_type = Find("leaf_type")
 	local kind = ""
 	local mz = inf_zoom
 	if landuse == "forest" or natural == "wood" then
 		kind = "forest"
 		mz = 7
+	elseif landuse == "military" then
+		kind = "military"
+		mz = 9
 	elseif landuse == "residential" or landuse == "industrial" or landuse == "commercial" or landuse == "retail" or landuse == "railway" or landuse == "landfill" or landuse == "brownfield" or landuse == "greenfield" or landuse == "farmyard" or landuse == "farmland" then
 		kind = landuse
 		mz = 10
@@ -509,10 +514,10 @@ function process_land()
 	elseif natural == "sand" or natural == "beach" then
 		kind = natural
 		mz = 10
-	elseif natural == "wood" or natural == "heath" or natural == "scrub" or natural == "grassland" or natural == "bare_rock" or natural == "scree" or natural == "shingle" or natural == "sand" or natural == "beach" then
+	elseif natural == "wood" or natural == "heath" or natural == "scrub" or natural == "grassland" or natural == "bare_rock" or natural == "scree" or natural == "shingle" or natural == "sand" or natural == "beach" or natural == "tidalflat" then
 		kind = natural
 		mz = 11
-	elseif wetland == "swamp" or wetland == "bog" or wetland == "string_bog" or wetland == "wet_meadow" or wetland == "marsh" then
+	elseif wetland == "swamp" or wetland == "bog" or wetland == "string_bog" or wetland == "wet_meadow" or wetland == "marsh" or wetland == "reedbed" then
 		kind = wetland
 		mz = 11
 	elseif Find("amenity") == "grave_yard" then
@@ -520,6 +525,9 @@ function process_land()
 		mz = 13
 	elseif landuse == "garages" then
 		kind = landuse
+		mz = 13
+	elseif landuse == "hop_garden" then
+		kind = "hop_garden"
 		mz = 13
 	elseif leisure == "golf_course" or leisure == "park" or leisure == "garden" or leisure == "playground" or leisure == "miniature_golf" or leisure == "pitch" then
 		kind = leisure
@@ -532,11 +540,13 @@ function process_land()
 		Layer("land_low", true)
 		MinZoom(mz)
 		Attribute("type", kind)
+		if kind == "forest" then Attribute("leaf_type", leaf_type) end
 	end
 	if mz < inf_zoom then
 		Layer("land", true)
 		MinZoom(mz)
 		Attribute("type", kind)
+		if kind == "forest" then Attribute("leaf_type", leaf_type) end
 	end
 end
 
@@ -559,6 +569,12 @@ function process_sites()
 	elseif military == "danger_area" then
 		kind = military
 		mz = 14
+	elseif landuse == "military" then
+		kind = "military"
+		mz = 9
+	elseif leisure == "nature_reserve" then
+		kind = "nature_reserve"
+		mz = 8
 	end
 	if mz < inf_zoom then
 		Layer("sites", true)
@@ -1188,27 +1204,41 @@ function process_pois(polygon)
 	local station = Find("station")
 	local archaeological_site = Find("archaeological_site")
 	local hiking = Find("hiking")
-	
+	local lifecycle = nil
+	local direction = nil
+
 	local is_church = { catholic = true, roman_catholic = true, old_catholic = true, greek_catholic = true, lutheran = true, protestant = true, reformed = true }
 	local is_chapel = { wayside_chapel = true, chapel = true, wayside_shrine = true, wayside_cross = true }
 	
-	if man_made == "communications_tower" then
+	if amenity == "place_of_worship" and (building == "chapel" or building == "wayside_chapel" or historic == "wayside_chapel") then
+		type_tag = "chapel"
+		mz = 14
+	elseif man_made == "communications_tower" then
 		type_tag = "communications_tower"
 		mz = 11
 	elseif power == "generator" and generator_method == "wind_turbine" then
 		type_tag = "wind_turbine"
 		mz = 11
+	elseif power == "generator" then
+		local generator_source = Find("generator:source")
+		if generator_source ~= "wind" and generator_source ~= "solar" then
+			type_tag = "power_station"
+			mz = 13
+		end
 	elseif man_made == "tower" and tower_type == "communication" then
 		type_tag = "communications_tower"
 		mz = 12
 	elseif man_made == "tower" and tower_type == "observation" then
 		type_tag = "observation_tower"
 		mz = 12
+	elseif man_made == "tower" then
+		type_tag = "tower"
+		mz = 13
 	elseif man_made == "lighthouse" then
 		type_tag = "lighthouse";
 		mz = 12
 	elseif man_made == "water_tower" then
-		type_tag = "water_tower";
+		type_tag = "water_tower"
 		mz = 12
 	elseif amenity == "place_of_worship" and religion == "christian" and (denomination == nil or is_church[denomination]) and (building == nil or not is_chapel[building]) and (historic == nil or not is_chapel[historic]) then
 		type_tag = "church"
@@ -1222,6 +1252,10 @@ function process_pois(polygon)
 	elseif historic == "ruins" then
 		type_tag = "castle_ruins"
 		mz = 14
+	elseif (historic == "memorial" and Find("memorial:type") ~= "stolperstein")
+			or historic == "monument" then
+		type_tag = "monument"
+		mz = 14
 	elseif (leisure == "sports_centre" and sport == "swimming") or leisure == "water_park" or leisure == "swimming_area" or (sport == "swimming" and leisure ~= "swimming_pool" and access ~= "private") then
 		type_tag = "swimming"
 		mz = 12
@@ -1234,7 +1268,7 @@ function process_pois(polygon)
 	elseif natural == "sinkhole" then
 		type_tag = "sinkhole"
 		mz = 13
-	elseif historic == "archaeological_site" and archaeological_site == "tumulus" then
+	elseif historic == "archaeological_site" and Find("site_type") == "tumulus" then
 		type_tag = "tumulus"
 		mz = 13
 	elseif tourism == "camp_site" or tourism == "caravan_site" then
@@ -1258,6 +1292,12 @@ function process_pois(polygon)
 	elseif man_made == "watermill" then
 		type_tag = "watermill"
 		mz = 13
+	elseif man_made == "mineshaft" or man_made == "adit" then
+		type_tag = "mineshaft"
+		mz = 13
+		if Find("disused") == "yes" or Find("abandoned") == "yes" then
+			lifecycle = "disused"
+		end
 	elseif (natural == "peak" or natural == "volcano") then		-- todo: update with Dominanz once available
 		local summit_cross = Find("summit:cross")
 		if summit_cross == "yes" then
@@ -1266,6 +1306,34 @@ function process_pois(polygon)
 			type_tag = "peak"
 		end
 		mz = 12
+	elseif natural == "saddle" then
+		type_tag = "saddle"
+		mz = 12
+		direction = Find("direction")
+	elseif natural == "fell" then
+		type_tag = "fell"
+		mz = 12
+	elseif natural == "valley" then
+		type_tag = "valley"
+		mz = 12
+	elseif natural == "bay" then
+		type_tag = "bay"
+		mz = 11
+	elseif natural == "ridge" then
+		type_tag = "ridge"
+		mz = 12
+	elseif natural == "moor" then
+		type_tag = "moor"
+		mz = 12
+	elseif natural == "cape" or natural == "peninsula" then
+		type_tag = "cape"
+		mz = 12
+	elseif natural == "heath" then
+		type_tag = "heath"
+		mz = 13
+	elseif natural == "wetland" and name ~= "" then
+		type_tag = "wetland"
+		mz = 13
 	elseif man_made == "cross" then
 		type_tag = "cross"
 		mz = 13
@@ -1276,7 +1344,7 @@ function process_pois(polygon)
 			type_tag = "tree_broadleaved"
 		end
 		mz = 13
-	elseif historic == "wayside_cross" then
+	elseif historic == "wayside_cross" or historic == "wayside_shrine" then
 		type_tag = "wayside_cross"
 		mz = 14
 	elseif highway == "bus_stop" then
@@ -1333,8 +1401,14 @@ function process_pois(polygon)
 	
 	Attribute("type", type_tag)
 	Attribute("denotation", nilToEmptyStr(denotation)) -- debug
+	if type_tag == "peak" or type_tag == "volcano" or type_tag == "summit_cross"
+			or type_tag == "saddle" or type_tag == "fell" then
+		addAttributeOrEmptyStr("ele")
+	end
+	if lifecycle ~= nil then Attribute("lifecycle", lifecycle) end
+	if direction ~= nil and direction ~= "" then Attribute("direction", direction) end
 	MinZoom(mz)
-	
+
 	setNameAttributes()
 	setAddressAttributes()
 	return true

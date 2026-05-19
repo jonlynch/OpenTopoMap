@@ -211,6 +211,31 @@ const otm_layers = [
 	}	
 },
 {
+	"id": "nature-reserve",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["==", ["get", "type"], "nature_reserve"],
+	"type": "line",
+	"paint": {
+		"line-color": "#85c243",
+		"line-width": 5,
+		"line-opacity": 0.5
+	}
+},
+{
+	"id": "military-border",
+	"source": "opentopomap-vector",
+	"source-layer": "land",
+	"filter": ["==", ["get", "type"], "military"],
+	"minzoom": 9,
+	"type": "line",
+	"paint": {
+		"line-color": "#d04040",
+		"line-width": 1.5,
+		"line-opacity": 0.8
+	}
+},
+{
 	"id": "natural_lines",
 	"source": "opentopomap-vector",
 	"source-layer": "natural_lines",
@@ -629,6 +654,7 @@ const otm_layers = [
 			"castle_ruins",["literal",[0,-3]],
 			["literal",[0,0]]
 		],
+        "icon-rotate": ["case", ["==", ["get","type"], "saddle"], ["to-number", ["get","direction"], 0], 0],
         "icon-keep-upright": true,
         "icon-allow-overlap": true,
         "symbol-placement": "point",

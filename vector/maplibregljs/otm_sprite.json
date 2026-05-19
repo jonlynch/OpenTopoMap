@@ -510,212 +510,219 @@
     "height": 20,
     "pixelRatio": 1
   },
-  "scrub": {
+  "scree": {
     "x": 0,
     "y": 1346,
+    "width": 20,
+    "height": 20,
+    "pixelRatio": 1
+  },
+  "scrub": {
+    "x": 0,
+    "y": 1366,
     "width": 75,
     "height": 75,
     "pixelRatio": 1
   },
   "shelter": {
     "x": 0,
-    "y": 1421,
+    "y": 1441,
     "width": 9,
     "height": 8,
     "pixelRatio": 1
   },
   "sinkhole": {
     "x": 0,
-    "y": 1429,
+    "y": 1449,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "small_town": {
     "x": 0,
-    "y": 1436,
+    "y": 1456,
     "width": 6,
     "height": 6,
     "pixelRatio": 1
   },
   "spring": {
     "x": 0,
-    "y": 1442,
+    "y": 1462,
     "width": 4,
     "height": 4,
     "pixelRatio": 1
   },
   "station": {
     "x": 0,
-    "y": 1446,
+    "y": 1466,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "station_subway": {
     "x": 0,
-    "y": 1453,
+    "y": 1473,
     "width": 6,
     "height": 6,
     "pixelRatio": 1
   },
   "string_bog": {
     "x": 0,
-    "y": 1459,
+    "y": 1479,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "summit_cross": {
     "x": 0,
-    "y": 1495,
+    "y": 1515,
     "width": 7,
     "height": 9,
     "pixelRatio": 1
   },
   "swamp-outline": {
     "x": 0,
-    "y": 1504,
+    "y": 1524,
     "width": 3,
     "height": 1,
     "pixelRatio": 1
   },
   "swamp": {
     "x": 0,
-    "y": 1505,
+    "y": 1525,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "swimming": {
     "x": 0,
-    "y": 1541,
+    "y": 1561,
     "width": 11,
     "height": 6,
     "pixelRatio": 1
   },
   "tidalflat": {
     "x": 0,
-    "y": 1547,
+    "y": 1567,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "tower": {
     "x": 0,
-    "y": 1567,
+    "y": 1587,
     "width": 9,
     "height": 13,
     "pixelRatio": 1
   },
   "town": {
     "x": 0,
-    "y": 1580,
+    "y": 1600,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "town_z8": {
     "x": 0,
-    "y": 1587,
+    "y": 1607,
     "width": 8,
     "height": 8,
     "pixelRatio": 1
   },
   "tree_broadleaved": {
     "x": 0,
-    "y": 1595,
+    "y": 1615,
     "width": 9,
     "height": 12,
     "pixelRatio": 1
   },
   "tree_needleleaved": {
     "x": 0,
-    "y": 1607,
+    "y": 1627,
     "width": 7,
     "height": 12,
     "pixelRatio": 1
   },
   "tumulus": {
     "x": 0,
-    "y": 1619,
+    "y": 1639,
     "width": 14,
     "height": 11,
     "pixelRatio": 1
   },
   "viewpoint": {
     "x": 0,
-    "y": 1630,
+    "y": 1650,
     "width": 17,
     "height": 17,
     "pixelRatio": 1
   },
   "vineyard": {
     "x": 0,
-    "y": 1647,
+    "y": 1667,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "water_tower": {
     "x": 0,
-    "y": 1667,
+    "y": 1687,
     "width": 9,
     "height": 13,
     "pixelRatio": 1
   },
   "watermill": {
     "x": 0,
-    "y": 1680,
+    "y": 1700,
     "width": 11,
     "height": 11,
     "pixelRatio": 1
   },
   "waterway-arrow": {
     "x": 0,
-    "y": 1691,
+    "y": 1711,
     "width": 14,
     "height": 3,
     "pixelRatio": 1
   },
   "wayside_cross": {
     "x": 0,
-    "y": 1694,
+    "y": 1714,
     "width": 7,
     "height": 8,
     "pixelRatio": 1
   },
   "weir": {
     "x": 0,
-    "y": 1702,
+    "y": 1722,
     "width": 6,
     "height": 3,
     "pixelRatio": 1
   },
   "wet_meadow": {
     "x": 0,
-    "y": 1705,
+    "y": 1725,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "wetland": {
     "x": 0,
-    "y": 1741,
+    "y": 1761,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "wilderness_hut": {
     "x": 0,
-    "y": 1777,
+    "y": 1797,
     "width": 9,
     "height": 9,
     "pixelRatio": 1
   },
   "wind_turbine": {
     "x": 0,
-    "y": 1786,
+    "y": 1806,
     "width": 15,
     "height": 20,
     "pixelRatio": 1

@@ -81,7 +81,7 @@ const otm_layers = [
 	"source-layer": "land",
 	"filter": ["in", ["get","type"], ["literal", [
 		"fell","scrub","meadow","grass","grassland","vineyard","orchard",
-		"bare_rock","quarry","allotments","hop_garden","sand","beach",
+		"bare_rock","scree","quarry","allotments","hop_garden","sand","beach",
 		"military","tidalflat","bog","string_bog","swamp","wet_meadow",
 		"marsh","wetland","reedbed"
 	]]],

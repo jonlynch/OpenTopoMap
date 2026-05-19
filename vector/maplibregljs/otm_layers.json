@@ -75,13 +75,42 @@ const otm_layers = [
 	"type": "fill",
 	"paint": {"fill-color": "#cce599","fill-outline-color": "#91c067"}
 },
-/*{
-	"id": "landuses",
+{
+	"id": "landcover-pattern",
 	"source": "opentopomap-vector",
 	"source-layer": "land",
+	"filter": ["in", ["get","type"], ["literal", [
+		"fell","scrub","meadow","grass","grassland","vineyard","orchard",
+		"bare_rock","quarry","allotments","hop_garden","sand","beach",
+		"military","tidalflat","bog","string_bog","swamp","wet_meadow",
+		"marsh","wetland","reedbed"
+	]]],
 	"type": "fill",
 	"paint": {"fill-pattern": ["get","type"]}
-},*/
+},
+{
+	"id": "forest-pattern",
+	"source": "opentopomap-vector",
+	"source-layer": "land",
+	"filter": ["==", ["get","type"], "forest"],
+	"type": "fill",
+	"paint": {
+		"fill-pattern": ["case",
+			["==", ["get","leaf_type"], "needleleaved"], "forest-coniferous",
+			["==", ["get","leaf_type"], "broadleaved"], "forest-deciduous",
+			"forest"
+		]
+	}
+},
+{
+	"id": "forest-edge",
+	"source": "opentopomap-vector",
+	"source-layer": "land",
+	"filter": ["==", ["get","type"], "forest"],
+	"minzoom": 14,
+	"type": "line",
+	"paint": {"line-pattern": "forest-outline", "line-width": 1}
+},
 {
 	"id": "hillshade",
 	"type": "hillshade",
@@ -460,6 +489,21 @@ const otm_layers = [
 			19, ["match", ["get", "type"], "motorway",17,  "motorway_link",17,  "trunk",17,  "trunk_link",17,  "primary",17,  "primary_link",17,  ["secondary","secondary_link"],17,  ["tertiary","tertiary_link"],17,  "unclassified",17,  ["residential","living_street","pedestrian"],17,  "service",9.5 , 0],
 		],
 		"line-opacity": ["case", ["to-boolean", ["get","tunnel"]], 0.5, 1],
+	}
+},
+{
+	"id": "oneway-arrows",
+	"source": "opentopomap-vector",
+	"source-layer": "streets",
+	"filter": ["==", ["get","oneway"], true],
+	"minzoom": 14,
+	"type": "symbol",
+	"layout": {
+		"symbol-placement": "line",
+		"symbol-spacing": 100,
+		"icon-image": "oneway",
+		"icon-allow-overlap": true,
+		"icon-ignore-placement": true
 	}
 },
 // Bridges

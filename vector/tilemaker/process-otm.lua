@@ -769,7 +769,7 @@ function process_streets()
 		elseif highway == "service" then
 			mz = 12
 		elseif highway == "footway" or highway == "steps" or highway == "path" or highway == "cycleway" or highway == "bridleway" then
-			mz = 13
+			mz = 7  -- temporary: lowered from 13 to review trail_visibility=no paths at all zooms
 		end
 	elseif (railway == "rail" or railway == "narrow_gauge") and service == "" then
 		kind = railway

@@ -1307,16 +1307,15 @@ function process_pois(polygon)
 			type_tag = "peak"
 		end
 		prominence_num = tonumber(Find("prominence"))
-		if prominence_num ~= nil then
-			if     prominence_num >= 2000 then mz = 7
-			elseif prominence_num >= 1000 then mz = 8
-			elseif prominence_num >= 400  then mz = 9
-			elseif prominence_num >= 150  then mz = 10
-			elseif prominence_num >= 50   then mz = 11
-			else                               mz = 12
-			end
-		else
-			mz = 12
+		local ele_num = tonumber(Find("ele")) or 0
+		-- Prefer prominence (region-agnostic absolute metric); fall back to ele
+		local rank = prominence_num or ele_num
+		if     rank >= 2000 then mz = 7
+		elseif rank >= 1000 then mz = 8
+		elseif rank >= 500  then mz = 9
+		elseif rank >= 200  then mz = 10
+		elseif rank >= 50   then mz = 11
+		else                     mz = 12
 		end
 	elseif natural == "saddle" then
 		type_tag = "saddle"

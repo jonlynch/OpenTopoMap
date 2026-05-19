@@ -401,7 +401,13 @@ const otm_layers = [
 			12, ["match", ["get", "tracktype"], "grade2",0.4, 0.2],
 			14, ["match", ["get", "tracktype"], "grade2",0.7, "grade3",0.6, "grade4",0.5, "grade5",0.3, 0.5],
 		],
-		"line-opacity": ["case", ["to-boolean", ["get","tunnel"]], 0.5, 1],
+		"line-opacity": ["case",
+			["to-boolean", ["get","tunnel"]], 0.5,
+			["==", ["get","trail_visibility"], "no"],          0.4,
+			["==", ["get","trail_visibility"], "horrible"],    0.6,
+			["==", ["get","trail_visibility"], "bad"],         0.8,
+			1.0
+		],
 		"line-dasharray": [6,6],
 	}
 },

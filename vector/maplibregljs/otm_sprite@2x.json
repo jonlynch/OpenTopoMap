@@ -646,76 +646,76 @@
   "viewpoint": {
     "x": 0,
     "y": 3260,
-    "width": 34,
-    "height": 34,
+    "width": 36,
+    "height": 36,
     "pixelRatio": 2
   },
   "vineyard": {
     "x": 0,
-    "y": 3294,
+    "y": 3296,
     "width": 40,
     "height": 40,
     "pixelRatio": 2
   },
   "water_tower": {
     "x": 0,
-    "y": 3334,
+    "y": 3336,
     "width": 18,
     "height": 26,
     "pixelRatio": 2
   },
   "watermill": {
     "x": 0,
-    "y": 3360,
+    "y": 3362,
     "width": 22,
     "height": 22,
     "pixelRatio": 2
   },
   "waterway-arrow": {
     "x": 0,
-    "y": 3382,
+    "y": 3384,
     "width": 28,
     "height": 6,
     "pixelRatio": 2
   },
   "wayside_cross": {
     "x": 0,
-    "y": 3388,
+    "y": 3390,
     "width": 14,
     "height": 16,
     "pixelRatio": 2
   },
   "weir": {
     "x": 0,
-    "y": 3404,
+    "y": 3406,
     "width": 12,
     "height": 6,
     "pixelRatio": 2
   },
   "wet_meadow": {
     "x": 0,
-    "y": 3410,
+    "y": 3412,
     "width": 72,
     "height": 72,
     "pixelRatio": 2
   },
   "wetland": {
     "x": 0,
-    "y": 3482,
+    "y": 3484,
     "width": 72,
     "height": 72,
     "pixelRatio": 2
   },
   "wilderness_hut": {
     "x": 0,
-    "y": 3554,
+    "y": 3556,
     "width": 18,
     "height": 18,
     "pixelRatio": 2
   },
   "wind_turbine": {
     "x": 0,
-    "y": 3572,
+    "y": 3574,
     "width": 30,
     "height": 40,
     "pixelRatio": 2

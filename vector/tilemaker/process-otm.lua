@@ -1206,6 +1206,7 @@ function process_pois(polygon)
 	local hiking = Find("hiking")
 	local lifecycle = nil
 	local direction = nil
+	local prominence_num = nil
 
 	local is_church = { catholic = true, roman_catholic = true, old_catholic = true, greek_catholic = true, lutheran = true, protestant = true, reformed = true }
 	local is_chapel = { wayside_chapel = true, chapel = true, wayside_shrine = true, wayside_cross = true }
@@ -1298,14 +1299,25 @@ function process_pois(polygon)
 		if Find("disused") == "yes" or Find("abandoned") == "yes" then
 			lifecycle = "disused"
 		end
-	elseif (natural == "peak" or natural == "volcano") then		-- todo: update with Dominanz once available
+	elseif (natural == "peak" or natural == "volcano") then
 		local summit_cross = Find("summit:cross")
 		if summit_cross == "yes" then
 			type_tag = "summit_cross"
 		else
 			type_tag = "peak"
 		end
-		mz = 12
+		prominence_num = tonumber(Find("prominence"))
+		if prominence_num ~= nil then
+			if     prominence_num >= 2000 then mz = 7
+			elseif prominence_num >= 1000 then mz = 8
+			elseif prominence_num >= 400  then mz = 9
+			elseif prominence_num >= 150  then mz = 10
+			elseif prominence_num >= 50   then mz = 11
+			else                               mz = 12
+			end
+		else
+			mz = 12
+		end
 	elseif natural == "saddle" then
 		type_tag = "saddle"
 		mz = 12
@@ -1393,17 +1405,38 @@ function process_pois(polygon)
 		return false
 	end
 	
+	local is_peak_type = type_tag == "peak" or type_tag == "volcano" or type_tag == "summit_cross"
+
+	-- Prominent peaks (mz < 11) must also appear in z7-10 tiles via pois_low
+	if is_peak_type and mz < 11 then
+		if polygon then
+			LayerAsCentroid("pois_low")
+		else
+			Layer("pois_low", false)
+		end
+		Attribute("type", type_tag)
+		Attribute("denotation", nilToEmptyStr(denotation))
+		addAttributeOrEmptyStr("ele")
+		if prominence_num ~= nil then AttributeNumeric("prominence", prominence_num) end
+		if direction ~= nil and direction ~= "" then Attribute("direction", direction) end
+		MinZoom(mz)
+		setNameAttributes()
+		setAddressAttributes()
+	end
+
 	if polygon then
 		LayerAsCentroid("pois")
 	else
 		Layer("pois", false)
 	end
-	
+
 	Attribute("type", type_tag)
-	Attribute("denotation", nilToEmptyStr(denotation)) -- debug
-	if type_tag == "peak" or type_tag == "volcano" or type_tag == "summit_cross"
-			or type_tag == "saddle" or type_tag == "fell" then
+	Attribute("denotation", nilToEmptyStr(denotation))
+	if is_peak_type or type_tag == "saddle" or type_tag == "fell" then
 		addAttributeOrEmptyStr("ele")
+		if is_peak_type and prominence_num ~= nil then
+			AttributeNumeric("prominence", prominence_num)
+		end
 	end
 	if lifecycle ~= nil then Attribute("lifecycle", lifecycle) end
 	if direction ~= nil and direction ~= "" then Attribute("direction", direction) end

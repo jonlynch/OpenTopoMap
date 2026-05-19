@@ -621,7 +621,8 @@ const otm_layers = [
 		],
         "icon-keep-upright": true,
         "icon-allow-overlap": true,
-        "symbol-placement": "point"
+        "symbol-placement": "point",
+        "symbol-sort-key": ["-", ["to-number", ["coalesce", ["get", "prominence"], 0]]]
 	}
 },
 {
@@ -708,6 +709,7 @@ const otm_layers = [
           "Roboto Regular"
         ],
         //"text-allow-overlap": true,
+        "symbol-sort-key": ["-", ["to-number", ["coalesce", ["get", "prominence"], 0]]]
 	},
 	"paint": {
 		"text-halo-color": "white",

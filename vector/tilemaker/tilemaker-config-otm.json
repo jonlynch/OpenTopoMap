@@ -199,6 +199,11 @@
         "pois": {
             "minzoom": 11,
             "maxzoom": 14
+        },
+        "pois_low": {
+            "minzoom": 7,
+            "maxzoom": 10,
+            "write_to": "pois"
         }
     },
     "settings": {

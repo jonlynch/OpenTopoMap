@@ -14,6 +14,7 @@
 // ==================
 import { ui } from '../src/index.js';
 import { otm_init_qth_factory } from '../src/otm-layer-qth.js';
+import { otm_init_bng_factory } from '../src/otm-layer-bng.js';
 
 // init function installing handlers
 // =================================
@@ -65,7 +66,11 @@ function otm_init_layers() {
   {
     showLabel: true
   });
-  
+
+  // British National Grid
+  otm_init_bng_factory();
+  ui.layers.overlay[ui.loc.layers_overlay[ui.c.OVERLAYLAYER_BNG]] = new L.BngGrid();
+
   // Add active baselayer
   ui.layers.base[ui.loc.layers_base[ui.ctx.baseLayer]].addTo(ui.map);
   

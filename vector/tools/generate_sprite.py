@@ -4,7 +4,9 @@ Usage:
   python generate_sprite.py input_folder output_sprite.png --padding 0 --json atlas.json
 
 Automatically determines column count to make the sheet roughly square.
-Uses ImageMagick (convert, montage, identify).
+Uses ImageMagick (convert, montage, identify) for the @1x sprite, then
+generates @2x PNG and JSON automatically alongside the outputs.
+
 JSON atlas format:
 {
   "name_without_ext": {"x":0,"y":0,"width":W,"height":H,"pixelRatio":1},
@@ -62,7 +64,6 @@ def build(input_folder, output_file, cols=None, padding=0, json_out=None):
     orig_sizes = []
     for i,f in enumerate(files):
         dest = tmp / f"f{i:04d}.png"
-        #run(f'convert "{f}" -trim +repage "{dest}"')
         run(f'convert "{f}" "{dest}"')
         originals.append(f.name)
         trimmed.append(dest)
@@ -109,6 +110,35 @@ def build(input_folder, output_file, cols=None, padding=0, json_out=None):
     shutil.rmtree(tmp)
     return atlas
 
+
+def write_2x(output_file, atlas, json_out):
+    """Generate @2x PNG (nearest-neighbour 2× scale) and @2x JSON alongside @1x outputs."""
+    from PIL import Image
+
+    out_path = Path(output_file)
+    x2_png  = out_path.with_name(out_path.stem + "@2x" + out_path.suffix)
+    x2_json = Path(json_out).with_name(Path(json_out).stem + "@2x" + Path(json_out).suffix)
+
+    src = Image.open(output_file).convert("RGBA")
+    w, h = src.size
+    src.resize((w * 2, h * 2), Image.NEAREST).save(str(x2_png))
+
+    x2_atlas = {
+        name: {
+            "x":          entry["x"] * 2,
+            "y":          entry["y"] * 2,
+            "width":      entry["width"] * 2,
+            "height":     entry["height"] * 2,
+            "pixelRatio": 2,
+        }
+        for name, entry in atlas.items()
+    }
+    with open(str(x2_json), "w") as f:
+        json.dump(x2_atlas, f, indent=2)
+
+    return x2_png, x2_json
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("input_folder"); ap.add_argument("output_sprite")
@@ -117,7 +147,13 @@ def main():
     ap.add_argument("--json", dest="json_out", default=None)
     args = ap.parse_args()
     atlas = build(args.input_folder, args.output_sprite, cols=args.cols, padding=args.padding, json_out=args.json_out)
-    print("Wrote", args.output_sprite, args.json_out or "")
+
+    if atlas and args.json_out:
+        x2_png, x2_json = write_2x(args.output_sprite, atlas, args.json_out)
+        print("Wrote", args.output_sprite, args.json_out)
+        print("Wrote", x2_png, x2_json)
+    else:
+        print("Wrote", args.output_sprite, args.json_out or "")
 
 if __name__=="__main__":
     main()

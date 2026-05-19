@@ -184,48 +184,6 @@ const otm_layers = [
 	"type": "fill",
 	"paint": {"fill-color": "#d0f8ff", "fill-opacity": 0.5, "fill-outline-color": "rgba(100,180,220,0.5)"}
 },
-// Labels
-{
-	"id": "water-line-labels",
-	"source": "opentopomap-vector",
-	"source-layer": "water_lines_labels",
-	"type": "symbol",
-	"layout": {
-		"symbol-placement": "line-center",
-        "text-field": "{name}",
-        //"text-size": ["interpolate",["linear"],["zoom"],13,10, 18,12],
-        
-        "text-size": [
-			"interpolate", ["linear"], ["zoom"],
-			13, ["match", ["get", "type"], "canal",10, "river",10, "stream",9, 9],
-			18, ["match", ["get", "type"], "canal",12, "river",12, "stream",11, 11],
-		],        
-        "text-font": [
-          "Roboto Regular"
-        ]
-	},
-	"paint": {
-		"text-color": "blue",
-		"text-halo-color": "white", //["match",["get","type"],"river","#a3dde8","white"],
-		"text-halo-width": 1.0
-	}
-},
-{
-	"id": "water-polygon-labels",
-	"source": "opentopomap-vector",
-	"source-layer": "water_polygons_labels",
-	"type": "symbol",
-	"layout": {
-        "text-field": "{name}",
-        "text-size": ["interpolate",["linear"],["zoom"],13,10, 18,12],
-        "text-font": [
-          "Roboto Regular"
-        ]
-	},
-	"paint": {
-		"text-color": "blue"
-	}
-},
 {
 	"id": "boundary",
 	"source": "opentopomap-vector",
@@ -774,6 +732,42 @@ const otm_layers = [
 		"text-halo-width": 1.5
 	}
 },
+// Water labels sit above roads so rivers/lakes read over road fill
+{
+	"id": "water-line-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "water_lines_labels",
+	"type": "symbol",
+	"layout": {
+		"symbol-placement": "line-center",
+        "text-field": "{name}",
+        "text-size": [
+			"interpolate", ["linear"], ["zoom"],
+			13, ["match", ["get", "type"], "canal",10, "river",10, "stream",9, 9],
+			18, ["match", ["get", "type"], "canal",12, "river",12, "stream",11, 11],
+		],
+        "text-font": ["Roboto Regular"]
+	},
+	"paint": {
+		"text-color": "blue",
+		"text-halo-color": "white",
+		"text-halo-width": 1.0
+	}
+},
+{
+	"id": "water-polygon-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "water_polygons_labels",
+	"type": "symbol",
+	"layout": {
+        "text-field": "{name}",
+        "text-size": ["interpolate",["linear"],["zoom"],13,10, 18,12],
+        "text-font": ["Roboto Regular"]
+	},
+	"paint": {
+		"text-color": "blue"
+	}
+},
 {
 	"id": "poi-texts",
 	"source": "opentopomap-vector",
@@ -791,7 +785,7 @@ const otm_layers = [
                 ["format",
                     ["coalesce",["get","name"],""], {},
                     "\n", {},
-                    ["number-format", ["get","ele"], {"max-fraction-digits": 0}], {"font-scale": 0.85}
+                    ["number-format", ["to-number", ["get","ele"], 0], {"max-fraction-digits": 0}], {"font-scale": 0.85}
                 ],
                 ["get","name"]
             ]

@@ -697,7 +697,7 @@ function process_streets()
 			mz = 9
 		elseif highway == "tertiary_link" then
 			mz = 9
-		elseif highway == "unclassified" or highway == "residential" or highway == "bus_guideway" or highway == "busway" then
+		elseif highway == "unclassified" or highway == "residential" or highway == "road" or highway == "bus_guideway" or highway == "busway" then
 			mz = 11
 		elseif highway == "living_street" or highway == "pedestrian" then
 			mz = 11
@@ -807,6 +807,10 @@ function process_streets()
 		addAttributeOrEmptyStr("surface")
 		addAttributeOrEmptyStr("tracktype")
 		addAttributeOrEmptyStr("service")
+		addAttributeOrEmptyStr("sac_scale")
+		addAttributeOrEmptyStr("trail_visibility")
+		addAttributeOrEmptyStr("bicycle")
+		addAttributeOrEmptyStr("horse")
 		if rail == true then
 			AttributeBoolean("rail", true)
 		end
@@ -824,6 +828,10 @@ function process_streets()
 		end
 		if reverseOnewayBool == true then
 			AttributeBoolean("oneway_reverse", true)
+		end
+		local ford = Find("ford")
+		if ford == "yes" then
+			AttributeBoolean("ford", true)
 		end
 
 		setZOrder(rail, false)
@@ -1217,7 +1225,7 @@ function process_pois(polygon)
 	elseif (leisure == "sports_centre" and sport == "swimming") or leisure == "water_park" or leisure == "swimming_area" or (sport == "swimming" and leisure ~= "swimming_pool" and access ~= "private") then
 		type_tag = "swimming"
 		mz = 12
-	elseif natural == "viewpoint" then
+	elseif natural == "viewpoint" or tourism == "viewpoint" then
 		type_tag = "viewpoint"
 		mz = 12
 	elseif natural == "cave_entrance" then
@@ -1251,6 +1259,7 @@ function process_pois(polygon)
 		type_tag = "watermill"
 		mz = 13
 	elseif (natural == "peak" or natural == "volcano") then		-- todo: update with Dominanz once available
+		local summit_cross = Find("summit:cross")
 		if summit_cross == "yes" then
 			type_tag = "summit_cross"
 		else
@@ -1289,6 +1298,27 @@ function process_pois(polygon)
 			type_tag = "parking"
 			mz = 14
 		end
+	elseif natural == "spring" then
+		type_tag = "spring"
+		mz = 13
+	elseif amenity == "shelter" then
+		type_tag = "shelter"
+		mz = 13
+	elseif amenity == "drinking_water" then
+		type_tag = "drinking_water"
+		mz = 14
+	elseif amenity == "fuel" then
+		type_tag = "fuel"
+		mz = 13
+	elseif amenity == "hospital" then
+		type_tag = "hospital"
+		mz = 12
+	elseif amenity == "pharmacy" then
+		type_tag = "pharmacy"
+		mz = 14
+	elseif tourism == "information" then
+		type_tag = "information"
+		mz = 14
 	end
 	
 	if type_tag == nil then

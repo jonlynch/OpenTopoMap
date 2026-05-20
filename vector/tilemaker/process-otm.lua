@@ -543,7 +543,7 @@ function process_land()
 	local leaf_type = Find("leaf_type")
 	local kind = ""
 	local mz = inf_zoom
-	if landuse == "forest" or natural == "wood" then
+	if landuse == "forest" or landuse == "wood" or natural == "wood" then
 		kind = "forest"
 		mz = 7
 	elseif landuse == "military" then

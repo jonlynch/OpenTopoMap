@@ -203,6 +203,7 @@ const otm_layers = [
 	"source-layer": "sites",
 	"filter": ["==", ["get", "type"], "national_park"],
 	"type": "line",
+	"minzoom": 10,
 	"paint": {
 		"line-color": "#c4d851",
 		"line-width": 3,
@@ -217,7 +218,7 @@ const otm_layers = [
 	"filter": ["all", ["==", ["get", "type"], "national_park"], ["==", ["geometry-type"], "LineString"]],
 	"type": "symbol",
 	"metadata": {"translate": true},
-	"minzoom": 8,
+	"minzoom": 10,
 	"layout": {
 		"symbol-placement": "line-center",
 		"text-field": "{name}",
@@ -237,6 +238,7 @@ const otm_layers = [
 	"source-layer": "sites",
 	"filter": ["==", ["get", "type"], "nature_reserve"],
 	"type": "line",
+	"minzoom": 10,
 	"paint": {
 		"line-color": "#85c243",
 		"line-width": 5,

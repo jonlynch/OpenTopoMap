@@ -852,16 +852,12 @@ function process_streets()
 			mz = 11
 		elseif highway == "living_street" or highway == "pedestrian" then
 			mz = 11
-		elseif highway == "track" and (tracktype == "grade1" or tracktype == "") then
-			mz = 11
-		elseif highway == "track" and (tracktype == "grade2") then
+		elseif highway == "track" then
 			mz = 12
-		elseif highway == "track" and (tracktype ~= "" or tracktype ~= "grade1" or tracktype ~= "grade2") then
-			mz = 13
 		elseif highway == "service" then
 			mz = 12
 		elseif highway == "footway" or highway == "steps" or highway == "path" or highway == "cycleway" or highway == "bridleway" then
-			mz = 7  -- temporary: lowered from 13 to review trail_visibility=no paths at all zooms
+			mz = 12
 		end
 	elseif (railway == "rail" or railway == "narrow_gauge") and service == "" then
 		kind = railway

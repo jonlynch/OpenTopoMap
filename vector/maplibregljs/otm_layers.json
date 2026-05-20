@@ -437,7 +437,7 @@ const otm_layers = [
 	"filter": [
 		"all",
 		["!=", "bridge", true],
-		["!in", "type", "path", "footway", "steps", "cycleway", "bridleway"]
+		["!in", "type", "path", "footway", "steps", "cycleway", "bridleway", "track"]
 	],
 	"type": "line",
 	"paint": {
@@ -463,21 +463,53 @@ const otm_layers = [
 	}
 },
 {
-	"id": "roads-lowgrade-casing",	// merge with roads-casing once line-dasharray supports data-driven styling.
+	"id": "track",
 	"source": "opentopomap-vector",
 	"source-layer": "streets",
+	"minzoom": 12,
 	"filter": [
 		"all",
 		["!=", "bridge", true],
-		["in", "type", "path", "footway", "steps", "cycleway", "bridleway"],
+		["==", "type", "track"]
+	],
+	"type": "line",
+	"layout": {"line-cap": "butt"},
+	"paint": {
+		"line-color": "black",
+		"line-width": [
+			"interpolate", ["linear"], ["zoom"],
+			12, 0.2,
+			14, 0.5,
+			16, 0.7,
+			19, 1.0
+		],
+		"line-gap-width": [
+			"interpolate", ["linear"], ["zoom"],
+			12, 0.75,
+			14, 1.5,
+			16, 2.25,
+			19, 3.0
+		],
+		"line-dasharray": [6, 6]
+	}
+},
+{
+	"id": "roads-lowgrade-casing",	// merge with roads-casing once line-dasharray supports data-driven styling.
+	"source": "opentopomap-vector",
+	"source-layer": "streets",
+	"minzoom": 12,
+	"filter": [
+		"all",
+		["!=", "bridge", true],
+		["in", "type", "path", "footway", "steps", "cycleway"],
 	],
 	"type": "line",
 	"paint": {
 		"line-color": "black",
 		"line-width": [
 			"interpolate", ["linear"], ["zoom"],
-			12, ["match", ["get", "tracktype"], "grade2",0.4, 0.2],
-			14, ["match", ["get", "tracktype"], "grade2",0.7, "grade3",0.6, "grade4",0.5, "grade5",0.3, 0.5],
+			12, 0.2,
+			14, 0.5
 		],
 		"line-opacity": ["case",
 			["to-boolean", ["get","tunnel"]], 0.5,
@@ -487,6 +519,35 @@ const otm_layers = [
 			1.0
 		],
 		"line-dasharray": [6,6],
+	}
+},
+{
+	"id": "bridleway",
+	"source": "opentopomap-vector",
+	"source-layer": "streets",
+	"minzoom": 12,
+	"filter": [
+		"all",
+		["!=", "bridge", true],
+		["==", "type", "bridleway"]
+	],
+	"type": "line",
+	"layout": {"line-cap": "butt"},
+	"paint": {
+		"line-color": "black",
+		"line-width": [
+			"interpolate", ["linear"], ["zoom"],
+			12, 0.2,
+			14, 0.5
+		],
+		"line-opacity": ["case",
+			["to-boolean", ["get","tunnel"]], 0.5,
+			["==", ["get","trail_visibility"], "no"],          0.4,
+			["==", ["get","trail_visibility"], "horrible"],    0.6,
+			["==", ["get","trail_visibility"], "bad"],         0.8,
+			1.0
+		],
+		"line-dasharray": [12, 4]
 	}
 },
 // Road fill

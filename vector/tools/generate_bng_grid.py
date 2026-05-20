@@ -76,7 +76,8 @@ def main():
         if coord % 100000 == 0:
             return '100km', ''
         if coord % 10000 == 0:
-            return '10km', ''
+            km = (coord // 1000) % 100
+            return '10km', str(km).zfill(2)
         km = (coord // 1000) % 100
         lbl = str(km).zfill(2) if axis == 'e' else str(km).zfill(2)
         return '1km', lbl

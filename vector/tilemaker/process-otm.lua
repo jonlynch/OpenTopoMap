@@ -555,7 +555,7 @@ function process_land()
 	elseif landuse == "grass" or landuse == "meadow" or landuse == "orchard" or landuse == "vineyard" or landuse == "allotments" or landuse == "village_green" or landuse == "recreation_ground" or landuse == "greenhouse_horticulture" or landuse == "plant_nursery" or landuse == "quarry" then
 		kind = landuse
 		mz = 11
-	elseif natural == "sand" or natural == "beach" then
+	elseif natural == "sand" or natural == "beach" or natural == "dune" then
 		kind = natural
 		mz = 10
 	elseif natural == "wood" or natural == "heath" or natural == "scrub" or natural == "grassland" or natural == "bare_rock" or natural == "scree" or natural == "shingle" or natural == "sand" or natural == "beach" or natural == "tidalflat" then

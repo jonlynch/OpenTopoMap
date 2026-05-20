@@ -168,6 +168,10 @@
             "maxzoom": 14,
             "z_order_ascending": false
         },
+        "land_labels": {
+            "minzoom": 10,
+            "maxzoom": 14
+        },
         "land": {
             "minzoom": 13,
             "maxzoom": 14,

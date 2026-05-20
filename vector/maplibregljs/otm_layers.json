@@ -911,6 +911,26 @@ const otm_layers = [
 	}
 },
 {
+	"id": "land-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "land_labels",
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"layout": {
+		"symbol-placement": "point",
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 10, 9, 14, 13],
+		"text-letter-spacing": 0.15,
+		"text-max-width": 8
+	},
+	"paint": {
+		"text-color": "#444444",
+		"text-halo-color": "rgba(255,255,255,0.8)",
+		"text-halo-width": 1.5
+	}
+},
+{
 	"id": "suburb",
 	"source": "opentopomap-vector",
 	"source-layer": "place_labels",

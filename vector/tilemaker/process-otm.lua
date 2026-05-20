@@ -1319,6 +1319,7 @@ function process_pois(polygon)
 	local denotation = Find("denotation")
 	local name = Find("name")
 	local generator_method = Find("generator:method")
+	local generator_source = Find("generator:source")
 	local tower_type = Find("tower:type")
 	local ruins = Find("ruins")
 	local religion = Find("religion")
@@ -1341,11 +1342,10 @@ function process_pois(polygon)
 	elseif man_made == "communications_tower" then
 		type_tag = "communications_tower"
 		mz = 11
-	elseif power == "generator" and generator_method == "wind_turbine" then
+	elseif power == "generator" and (generator_source == "wind" or generator_method == "wind_turbine") then
 		type_tag = "wind_turbine"
 		mz = 11
 	elseif power == "generator" then
-		local generator_source = Find("generator:source")
 		if generator_source ~= "wind" and generator_source ~= "solar" then
 			type_tag = "power_station"
 			mz = 13

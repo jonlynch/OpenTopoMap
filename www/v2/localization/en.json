@@ -33,8 +33,7 @@
   "layers_overlay": [
     "Lonvia Hiking Routes",
     "Lonvia Cycling Routes",
-    "QTH Graticule",
-    "British National Grid"
+    "QTH Graticule"
   ],
   "marker": {
     "title": "Set marker"

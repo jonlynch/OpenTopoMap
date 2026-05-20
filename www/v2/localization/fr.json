@@ -33,8 +33,7 @@
   "layers_overlay": [
     "Sentiers Lonvia",
     "Pistes cyclables Lonvia",
-    "Quadrillage QTH",
-    "Grille nationale britannique"
+    "Quadrillage QTH"
   ],
   "marker": {
     "title": "Placer le marqueur"

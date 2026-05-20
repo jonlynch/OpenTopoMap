@@ -1015,5 +1015,86 @@ const otm_layers = [
 	"paint": {
 		"raster-opacity": 1
 	}
+},
+{
+	"id": "bng-grid-1km",
+	"type": "line",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_lines",
+	"minzoom": 11,
+	"filter": ["==", ["get", "tier"], "1km"],
+	"layout": {"visibility": "visible"},
+	"paint": {
+		"line-color": "rgba(0, 100, 175, 0.55)",
+		"line-width": 0.7
+	}
+},
+{
+	"id": "bng-grid-10km",
+	"type": "line",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_lines",
+	"minzoom": 8,
+	"filter": ["==", ["get", "tier"], "10km"],
+	"layout": {"visibility": "visible"},
+	"paint": {
+		"line-color": "rgba(0, 100, 175, 0.7)",
+		"line-width": 1.0
+	}
+},
+{
+	"id": "bng-grid-100km",
+	"type": "line",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_lines",
+	"filter": ["==", ["get", "tier"], "100km"],
+	"layout": {"visibility": "visible"},
+	"paint": {
+		"line-color": "rgba(0, 75, 150, 0.9)",
+		"line-width": 2.0
+	}
+},
+{
+	"id": "bng-grid-1km-labels",
+	"type": "symbol",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_lines",
+	"minzoom": 12,
+	"filter": ["all",
+		["==", ["get", "tier"], "1km"],
+		["!=", ["get", "label"], ""]
+	],
+	"layout": {
+		"visibility": "visible",
+		"symbol-placement": "line",
+		"symbol-spacing": 250,
+		"text-field": ["get", "label"],
+		"text-size": 10,
+		"text-rotation-alignment": "viewport",
+		"text-font": ["Roboto Regular"]
+	},
+	"paint": {
+		"text-color": "rgba(0, 55, 135, 1.0)",
+		"text-halo-color": "white",
+		"text-halo-width": 1.5
+	}
+},
+{
+	"id": "bng-grid-letters",
+	"type": "symbol",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_labels",
+	"layout": {
+		"visibility": "visible",
+		"text-field": ["get", "label"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 4, 10, 8, 14],
+		"text-anchor": "bottom-left",
+		"text-font": ["Roboto Bold"]
+	},
+	"paint": {
+		"text-color": "rgba(0, 55, 135, 1.0)",
+		"text-halo-color": "white",
+		"text-halo-width": 1.5
+	}
 }
 ];

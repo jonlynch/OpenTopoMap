@@ -33,8 +33,7 @@
   "layers_overlay": [
     "Lonvia Wanderrouten",
     "Lonvia Radrouten",
-    "QTH-Gitternetz",
-    "Britisches Nationales Gitternetz"
+    "QTH-Gitternetz"
   ],
   "marker": {
     "title": "Markierung setzen"

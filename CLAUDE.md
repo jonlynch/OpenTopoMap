@@ -21,19 +21,55 @@ npm run build        # production build to dist/
 
 Vector tiles are produced with [Tilemaker](https://github.com/shortbread-tiles/shortbread-tilemaker):
 
-```bash
-# Build vector tiles (must run from vector/ so that data/ shapefile paths resolve correctly)
-cd vector && tilemaker --config tilemaker/tilemaker-config-otm.json \
-          --process tilemaker/process-otm.lua \
-          --input data/region.osm.pbf \
-          --output data/region.mbtiles
+All commands below must be run from the `vector/` directory.
 
+**Step 1 — Renumber the OSM extract** (must be done whenever the extract is updated):
+
+```bash
+cd vector
+osmium renumber osm/region-latest.osm.pbf -o osm/region-renumbered.osm.pbf -O
+```
+
+**Step 2 — Regenerate peak isolation CSV** (must be re-run after every renumber):
+
+```bash
+python3 tools/compute_isolation.py \
+    --pbf osm/region-renumbered.osm.pbf \
+    --output data/peak_isolation.csv
+```
+
+> The CSV contains renumbered node IDs. The tilemaker build must consume the **same renumbered
+> PBF**; using the original extract causes all isolation lookups to miss silently, degrading
+> every peak to elevation-only zoom ordering.
+
+**Step 3 — Generate BNG grid shapefiles** (one-off; only if `data/bng-grid-4326/` is absent):
+
+```bash
+python3 tools/generate_bng_grid.py
+```
+
+**Step 4 — Build vector tiles**:
+
+```bash
+tilemaker --config tilemaker/tilemaker-config-otm.json \
+          --process tilemaker/process-otm.lua \
+          --input osm/region-renumbered.osm.pbf \
+          --output tiles/region.mbtiles \
+          --threads 1
+```
+
+> **Memory**: `--threads 1` avoids OOM kills on systems with limited swap. Multi-threaded builds
+> spike memory in the final write phase as each thread holds its own copy of the shapefile index.
+
+**Other tools**:
+
+```bash
 # Generate sprite sheets (produces @1x and @2x PNG + JSON)
-python3 vector/tools/generate_sprite.py \
-    vector/maplibregljs/otm_symbols \
-    vector/maplibregljs/otm_sprite.png \
-    --json vector/maplibregljs/otm_sprite.json \
-    --overrides-2x vector/maplibregljs/otm_symbols_2x
+python3 tools/generate_sprite.py \
+    maplibregljs/otm_symbols \
+    maplibregljs/otm_sprite.png \
+    --json maplibregljs/otm_sprite.json \
+    --overrides-2x maplibregljs/otm_symbols_2x
 ```
 
 To add a new icon:
@@ -57,7 +93,7 @@ Uses mkgmap + splitter Java tools. See `garmin/README.md` for the full pipeline 
 
 ### Four largely independent subsystems
 
-1. **vector/** — Tilemaker-based vector tile generation, this is the active rendering pipeline. `tilemaker/tilemaker-config-otm.json` defines 24 layers (streets at low/med/high zoom, water polygons, land use, POIs, boundaries, buildings, etc.) with per-layer zoom ranges and simplify thresholds. `tilemaker/process-otm.lua` (~1450 lines) is the OSM data processing script that classifies features, assigns zoom levels, and sets vector tile attributes. It is a modified Shortbread schema.
+1. **vector/** — Tilemaker-based vector tile generation, this is the active rendering pipeline. `tilemaker/tilemaker-config-otm.json` defines layers (streets at low/med/high zoom, water polygons, land use, POIs, boundaries, buildings, BNG grid, etc.) with per-layer zoom ranges and simplify thresholds. `tilemaker/process-otm.lua` (~1450 lines) is the OSM data processing script that classifies features, assigns zoom levels, and sets vector tile attributes. It is a modified Shortbread schema. The OSGB British National Grid is baked into the tiles as two source-layers — `bng_lines` (LineString, tiers 100km/10km/1km) and `bng_labels` (Point, 100km square letter pairs) — generated from shapefiles in `data/bng-grid-4326/` by `tools/generate_bng_grid.py` (requires `pyproj`, `fiona`).
 
 2. **mapnik/** — Legacy raster tile renderer. ~70 XML style files in `styles-otm/` define rendering rules for Mapnik. The C tools (`tools/saddledirection.c`, `tools/isolation.c`) compute saddle directions and peak isolation from raster DEMs. SQL scripts populate auxiliary PostGIS columns. `osm2pgsql/` contains the import styles. Setup guides cover Ubuntu 16.04/18.04; this subsystem is being phased out in favour of vector tiles.
 
@@ -86,4 +122,5 @@ OSM planet/region extract (.osm.pbf) → [osm2pgsql for raster OR Tilemaker for 
 - The vector tile LUA script implements zoom-by-area and zoom-by-length calculations to dynamically assign minzoom based on feature size
 - The web frontend expects a `lang.json` listing available languages and a default fallback; each language has its own JSON file
 - Saddle direction and peak isolation computations rely on raw DEM GeoTIFFs (`raw.tif`) being available
+- `data/peak_isolation.csv` is generated from a **renumbered** PBF; the tilemaker build must use the same renumbered PBF or all isolation lookups will silently miss (peaks fall back to elevation-only zoom ordering)
 - The root `package-lock.json` is an empty placeholder — the real npm project is `www/v2/`

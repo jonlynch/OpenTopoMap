@@ -33,8 +33,7 @@
   "layers_overlay": [
     "Rutas de senderismo Lonvia",
     "Rutas ciclistas Lonvia",
-    "Retícula QTH",
-    "Cuadrícula Nacional Británica"
+    "Retícula QTH"
   ],
   "marker": {
     "title": "Establecer marcador"

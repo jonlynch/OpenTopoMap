@@ -1667,6 +1667,10 @@ function relation_scan_function()
 		if admin_level_valid(Find("admin_level"), true) then
 			Accept()
 		end
+	elseif boundary == "protected_area" or boundary == "national_park" then
+		if Find("leisure") == "nature_reserve" then
+			Accept()
+		end
 	end
 end
 

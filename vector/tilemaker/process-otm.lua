@@ -621,6 +621,12 @@ function process_sites()
 		mz = 8
 	end
 	if mz < inf_zoom then
+		if mz <= 12 then
+			Layer("sites_low", true)
+			MinZoom(mz)
+			Attribute("type", kind)
+			if kind == "nature_reserve" then setNameAttributes() end
+		end
 		Layer("sites", true)
 		MinZoom(mz)
 		Attribute("type", kind)

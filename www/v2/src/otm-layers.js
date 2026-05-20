@@ -65,7 +65,7 @@ function otm_init_layers() {
   {
     showLabel: true
   });
-  
+
   // Add active baselayer
   ui.layers.base[ui.loc.layers_base[ui.ctx.baseLayer]].addTo(ui.map);
   

@@ -643,10 +643,12 @@ function process_boundary_lines()
 	local min_admin_level = 99
 	local disputedBool = false
 	local is_nature_reserve = false
+	local is_national_park = false
 	local res_name, res_name_de, res_name_en, res_name_fr, res_name_it, res_name_es = "", "", "", "", "", ""
+	local np_name, np_name_de, np_name_en, np_name_fr, np_name_it, np_name_es = "", "", "", "", "", ""
 	while true do
 		local rel = NextRelation()
-		if not rel and min_admin_level == 99 and not is_nature_reserve then
+		if not rel and min_admin_level == 99 and not is_nature_reserve and not is_national_park then
 			return
 		elseif not rel then
 			break
@@ -676,6 +678,19 @@ function process_boundary_lines()
 				res_name_it = FindInRelation("name:it") or ""
 				res_name_es = FindInRelation("name:es") or ""
 			end
+		elseif boundary == "national_park" or (boundary == "protected_area" and (FindInRelation("designation") == "national_park" or FindInRelation("protection_title") == "national_park")) then
+			is_national_park = true
+			if np_name == "" then
+				local rn    = FindInRelation("name")    or ""
+				local rn_en = FindInRelation("name:en") or ""
+				local rn_de = FindInRelation("name:de") or ""
+				np_name    = fillWithFallback(rn, rn_en, rn_de)
+				np_name_en = (rn_en ~= "" and rn_en ~= np_name) and rn_en or ""
+				np_name_de = (rn_de ~= "" and rn_de ~= np_name) and rn_de or ""
+				np_name_fr = FindInRelation("name:fr") or ""
+				np_name_it = FindInRelation("name:it") or ""
+				np_name_es = FindInRelation("name:es") or ""
+			end
 		end
 	end
 
@@ -697,6 +712,26 @@ function process_boundary_lines()
 		Layer("sites", false)
 		MinZoom(8)
 		writeReserveAttrs()
+	end
+
+	if is_national_park then
+		local function writeNpAttrs()
+			Attribute("type", "national_park")
+			if np_name ~= "" then
+				Attribute("name", np_name)
+				Attribute("name:de", np_name_de)
+				Attribute("name:en", np_name_en)
+				Attribute("name:fr", np_name_fr)
+				Attribute("name:it", np_name_it)
+				Attribute("name:es", np_name_es)
+			end
+		end
+		Layer("sites_low", false)
+		MinZoom(6)
+		writeNpAttrs()
+		Layer("sites", false)
+		MinZoom(6)
+		writeNpAttrs()
 	end
 
 	local mz = inf_zoom
@@ -1703,8 +1738,12 @@ function relation_scan_function()
 		if admin_level_valid(Find("admin_level"), true) then
 			Accept()
 		end
-	elseif boundary == "protected_area" or boundary == "national_park" then
+	elseif boundary == "national_park" then
+		Accept()
+	elseif boundary == "protected_area" then
 		if Find("leisure") == "nature_reserve" then
+			Accept()
+		elseif Find("designation") == "national_park" or Find("protection_title") == "national_park" then
 			Accept()
 		end
 	end

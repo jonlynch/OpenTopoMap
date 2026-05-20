@@ -210,6 +210,27 @@ const otm_layers = [
 	}
 },
 {
+	"id": "nature-reserve-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["==", ["get", "type"], "nature_reserve"],
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"minzoom": 12,
+	"layout": {
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 10, 10, 15, 14],
+		"text-variable-anchor": ["center", "top", "bottom"],
+		"text-max-width": 8
+	},
+	"paint": {
+		"text-color": "#608c31",
+		"text-halo-color": "rgba(255,255,255,0.8)",
+		"text-halo-width": 1.5
+	}
+},
+{
 	"id": "military-border",
 	"source": "opentopomap-vector",
 	"source-layer": "land",
@@ -807,6 +828,25 @@ const otm_layers = [
 	},
 	"paint": {
 		"text-halo-color": "white",
+		"text-halo-width": 1.5
+	}
+},
+{
+	"id": "natural-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "natural_labels",
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"layout": {
+		"symbol-placement": "line-center",
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 8, 9, 14, 12],
+		"text-letter-spacing": 0.1
+	},
+	"paint": {
+		"text-color": "#444444",
+		"text-halo-color": "rgba(255,255,255,0.8)",
 		"text-halo-width": 1.5
 	}
 },

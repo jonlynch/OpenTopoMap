@@ -205,6 +205,10 @@
             "maxzoom": 10,
             "write_to": "pois"
         },
+        "natural_labels": {
+            "minzoom": 6,
+            "maxzoom": 14
+        },
         "bng_lines": {
             "minzoom": 0,
             "maxzoom": 14,

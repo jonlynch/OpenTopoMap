@@ -88,7 +88,8 @@ poi_shop_values = Set { "supermarket", "bakery", "kiosk", "mall", "department_st
 poi_man_made_values = Set { "surveillance", "communications_tower", "tower", "mast", "chimney", "cross", "mindshaft", "adit", "windmill", "lighthouse", "wastewater_plant",
 	"water_well", "watermill", "water_tower", "water_works" }
 poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano", "saddle",
-	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath" }
+	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath",
+	"gorge", "gully", "canyon", "couloir", "arete", "massif", "mountain_range", "basin" }
 poi_historic_values = Set { "monument", "memorial", "castle", "ruins", "archaeological_site",
 	"wayside_cross", "wayside_shrine", "battlefield", "fort" }
 poi_emergency_values = Set { "phone", "fire_hydrant", "defibrillator" }
@@ -623,6 +624,9 @@ function process_sites()
 		Layer("sites", true)
 		MinZoom(mz)
 		Attribute("type", kind)
+		if kind == "nature_reserve" then
+			setNameAttributes()
+		end
 	end
 end
 
@@ -1397,6 +1401,18 @@ function process_pois(polygon)
 	elseif natural == "heath" then
 		type_tag = "heath"
 		mz = 13
+	elseif natural == "gorge" or natural == "canyon" then
+		type_tag = natural
+		mz = 11
+	elseif natural == "gully" or natural == "couloir" or natural == "arete" then
+		type_tag = natural
+		mz = 12
+	elseif natural == "massif" or natural == "mountain_range" then
+		type_tag = natural
+		mz = 8
+	elseif natural == "basin" then
+		type_tag = natural
+		mz = 10
 	elseif natural == "wetland" and name ~= "" then
 		type_tag = "wetland"
 		mz = 13
@@ -1598,6 +1614,24 @@ function way_function()
 	-- Abort here if it was written as POI because Tilemaker cannot write a feature to two layers.
 	if is_poi then
 		return
+	end
+
+	-- Layer natural_labels — linear landscape features (valley, ridge, gorge, etc.)
+	if not is_area then
+		local natural_val = Find("natural")
+		local landscape_way_mz = {
+			valley=12, ridge=12, gorge=11, canyon=11,
+			gully=12, couloir=12, arete=12,
+			massif=8, mountain_range=8, basin=10,
+			fell=12, moor=12, heath=13
+		}
+		local lmz = landscape_way_mz[natural_val]
+		if lmz ~= nil and Find("name") ~= "" then
+			Layer("natural_labels", false)
+			Attribute("type", natural_val)
+			MinZoom(lmz)
+			setNameAttributes()
+		end
 	end
 
 	-- Layer addresses

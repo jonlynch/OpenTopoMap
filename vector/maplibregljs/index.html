@@ -431,7 +431,7 @@
 					if (lang == "nn") {
 						map.setLayoutProperty(layer.id, 'text-field', '{name}');
 					} else {
-						map.setLayoutProperty(layer.id, 'text-field', ['coalesce',['get', 'name:'+lang],['get', 'name']]);
+						map.setLayoutProperty(layer.id, 'text-field', ['case', ['all', ['has', 'name:'+lang], ['!=', ['get', 'name:'+lang], '']], ['get', 'name:'+lang], ['get', 'name']]);
 					}
 					state.lang = lang;
 				}

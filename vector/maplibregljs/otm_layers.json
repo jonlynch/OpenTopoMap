@@ -198,15 +198,93 @@ const otm_layers = [
 	}	
 },
 {
+	"id": "national-park",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["==", ["get", "type"], "national_park"],
+	"type": "line",
+	"minzoom": 10,
+	"paint": {
+		"line-color": "#c4d851",
+		"line-width": 3,
+		"line-opacity": 0.8,
+		"line-dasharray": [6, 3]
+	}
+},
+{
+	"id": "national-park-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["all", ["==", ["get", "type"], "national_park"], ["==", ["geometry-type"], "LineString"]],
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"minzoom": 10,
+	"layout": {
+		"symbol-placement": "line-center",
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 8, 10, 14, 14],
+		"text-max-width": 10
+	},
+	"paint": {
+		"text-color": "#6a8f00",
+		"text-halo-color": "rgba(255,255,255,0.8)",
+		"text-halo-width": 1.5
+	}
+},
+{
 	"id": "nature-reserve",
 	"source": "opentopomap-vector",
 	"source-layer": "sites",
 	"filter": ["==", ["get", "type"], "nature_reserve"],
 	"type": "line",
+	"minzoom": 10,
 	"paint": {
 		"line-color": "#85c243",
 		"line-width": 5,
 		"line-opacity": 0.5
+	}
+},
+{
+	"id": "nature-reserve-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["all", ["==", ["get", "type"], "nature_reserve"], ["==", ["geometry-type"], "Polygon"]],
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"minzoom": 10,
+	"layout": {
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 10, 10, 15, 14],
+		"text-variable-anchor": ["center", "top", "bottom"],
+		"text-max-width": 8
+	},
+	"paint": {
+		"text-color": "#608c31",
+		"text-halo-color": "rgba(255,255,255,0.8)",
+		"text-halo-width": 1.5
+	}
+},
+{
+	"id": "nature-reserve-labels-line",
+	"source": "opentopomap-vector",
+	"source-layer": "sites",
+	"filter": ["all", ["==", ["get", "type"], "nature_reserve"], ["==", ["geometry-type"], "LineString"]],
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"minzoom": 10,
+	"layout": {
+		"symbol-placement": "line-center",
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 10, 10, 15, 14],
+		"text-max-width": 8
+	},
+	"paint": {
+		"text-color": "#608c31",
+		"text-halo-color": "rgba(255,255,255,0.8)",
+		"text-halo-width": 1.5
 	}
 },
 {
@@ -807,6 +885,25 @@ const otm_layers = [
 	},
 	"paint": {
 		"text-halo-color": "white",
+		"text-halo-width": 1.5
+	}
+},
+{
+	"id": "natural-labels",
+	"source": "opentopomap-vector",
+	"source-layer": "natural_labels",
+	"type": "symbol",
+	"metadata": {"translate": true},
+	"layout": {
+		"symbol-placement": "line-center",
+		"text-field": "{name}",
+		"text-font": ["Roboto Italic"],
+		"text-size": ["interpolate", ["linear"], ["zoom"], 8, 9, 14, 12],
+		"text-letter-spacing": 0.1
+	},
+	"paint": {
+		"text-color": "#444444",
+		"text-halo-color": "rgba(255,255,255,0.8)",
 		"text-halo-width": 1.5
 	}
 },

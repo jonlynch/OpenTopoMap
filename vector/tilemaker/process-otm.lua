@@ -88,7 +88,8 @@ poi_shop_values = Set { "supermarket", "bakery", "kiosk", "mall", "department_st
 poi_man_made_values = Set { "surveillance", "communications_tower", "tower", "mast", "chimney", "cross", "mindshaft", "adit", "windmill", "lighthouse", "wastewater_plant",
 	"water_well", "watermill", "water_tower", "water_works" }
 poi_natural_values = Set { "spring", "cave_entrance", "tree", "sinkhole", "peak", "volcano", "saddle",
-	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath" }
+	"fell", "bay", "cape", "peninsula", "moor", "valley", "ridge", "wetland", "heath",
+	"gorge", "gully", "canyon", "couloir", "arete", "massif", "mountain_range", "basin" }
 poi_historic_values = Set { "monument", "memorial", "castle", "ruins", "archaeological_site",
 	"wayside_cross", "wayside_shrine", "battlefield", "fort" }
 poi_emergency_values = Set { "phone", "fire_hydrant", "defibrillator" }
@@ -620,9 +621,18 @@ function process_sites()
 		mz = 8
 	end
 	if mz < inf_zoom then
+		if mz <= 12 then
+			Layer("sites_low", true)
+			MinZoom(mz)
+			Attribute("type", kind)
+			if kind == "nature_reserve" then setNameAttributes() end
+		end
 		Layer("sites", true)
 		MinZoom(mz)
 		Attribute("type", kind)
+		if kind == "nature_reserve" then
+			setNameAttributes()
+		end
 	end
 end
 
@@ -632,9 +642,13 @@ function process_boundary_lines()
 	end
 	local min_admin_level = 99
 	local disputedBool = false
+	local is_nature_reserve = false
+	local is_national_park = false
+	local res_name, res_name_de, res_name_en, res_name_fr, res_name_it, res_name_es = "", "", "", "", "", ""
+	local np_name, np_name_de, np_name_en, np_name_fr, np_name_it, np_name_es = "", "", "", "", "", ""
 	while true do
 		local rel = NextRelation()
-		if not rel and min_admin_level == 99 then
+		if not rel and min_admin_level == 99 and not is_nature_reserve and not is_national_park then
 			return
 		elseif not rel then
 			break
@@ -651,6 +665,73 @@ function process_boundary_lines()
 		if boundary == "disputed" then
 			disputedBool = true
 		end
+		if (boundary == "protected_area" or boundary == "national_park") and FindInRelation("leisure") == "nature_reserve" then
+			is_nature_reserve = true
+			if res_name == "" then
+				local rn    = FindInRelation("name")    or ""
+				local rn_en = FindInRelation("name:en") or ""
+				local rn_de = FindInRelation("name:de") or ""
+				res_name    = fillWithFallback(rn, rn_en, rn_de)
+				res_name_en = (rn_en ~= "" and rn_en ~= res_name) and rn_en or ""
+				res_name_de = (rn_de ~= "" and rn_de ~= res_name) and rn_de or ""
+				res_name_fr = FindInRelation("name:fr") or ""
+				res_name_it = FindInRelation("name:it") or ""
+				res_name_es = FindInRelation("name:es") or ""
+			end
+		elseif boundary == "national_park" or (boundary == "protected_area" and (FindInRelation("designation") == "national_park" or FindInRelation("protection_title") == "national_park")) then
+			is_national_park = true
+			if np_name == "" then
+				local rn    = FindInRelation("name")    or ""
+				local rn_en = FindInRelation("name:en") or ""
+				local rn_de = FindInRelation("name:de") or ""
+				np_name    = fillWithFallback(rn, rn_en, rn_de)
+				np_name_en = (rn_en ~= "" and rn_en ~= np_name) and rn_en or ""
+				np_name_de = (rn_de ~= "" and rn_de ~= np_name) and rn_de or ""
+				np_name_fr = FindInRelation("name:fr") or ""
+				np_name_it = FindInRelation("name:it") or ""
+				np_name_es = FindInRelation("name:es") or ""
+			end
+		end
+	end
+
+	if is_nature_reserve then
+		local function writeReserveAttrs()
+			Attribute("type", "nature_reserve")
+			if res_name ~= "" then
+				Attribute("name", res_name)
+				Attribute("name:de", res_name_de)
+				Attribute("name:en", res_name_en)
+				Attribute("name:fr", res_name_fr)
+				Attribute("name:it", res_name_it)
+				Attribute("name:es", res_name_es)
+			end
+		end
+		Layer("sites_low", false)
+		MinZoom(8)
+		writeReserveAttrs()
+		Layer("sites", false)
+		MinZoom(8)
+		writeReserveAttrs()
+	end
+
+	if is_national_park then
+		local function writeNpAttrs()
+			Attribute("type", "national_park")
+			if np_name ~= "" then
+				Attribute("name", np_name)
+				Attribute("name:de", np_name_de)
+				Attribute("name:en", np_name_en)
+				Attribute("name:fr", np_name_fr)
+				Attribute("name:it", np_name_it)
+				Attribute("name:es", np_name_es)
+			end
+		end
+		Layer("sites_low", false)
+		MinZoom(6)
+		writeNpAttrs()
+		Layer("sites", false)
+		MinZoom(6)
+		writeNpAttrs()
 	end
 
 	local mz = inf_zoom
@@ -1397,6 +1478,18 @@ function process_pois(polygon)
 	elseif natural == "heath" then
 		type_tag = "heath"
 		mz = 13
+	elseif natural == "gorge" or natural == "canyon" then
+		type_tag = natural
+		mz = 11
+	elseif natural == "gully" or natural == "couloir" or natural == "arete" then
+		type_tag = natural
+		mz = 12
+	elseif natural == "massif" or natural == "mountain_range" then
+		type_tag = natural
+		mz = 8
+	elseif natural == "basin" then
+		type_tag = natural
+		mz = 10
 	elseif natural == "wetland" and name ~= "" then
 		type_tag = "wetland"
 		mz = 13
@@ -1600,6 +1693,24 @@ function way_function()
 		return
 	end
 
+	-- Layer natural_labels — linear landscape features (valley, ridge, gorge, etc.)
+	if not is_area then
+		local natural_val = Find("natural")
+		local landscape_way_mz = {
+			valley=12, ridge=12, gorge=11, canyon=11,
+			gully=12, couloir=12, arete=12,
+			massif=8, mountain_range=8, basin=10,
+			fell=12, moor=12, heath=13
+		}
+		local lmz = landscape_way_mz[natural_val]
+		if lmz ~= nil and Find("name") ~= "" then
+			Layer("natural_labels", false)
+			Attribute("type", natural_val)
+			MinZoom(lmz)
+			setNameAttributes()
+		end
+	end
+
 	-- Layer addresses
 	local housenumber = Find("addr:housenumber")
 	local housename = Find("addr:housename")
@@ -1625,6 +1736,14 @@ function relation_scan_function()
 		end
 	elseif boundary == "disputed" then
 		if admin_level_valid(Find("admin_level"), true) then
+			Accept()
+		end
+	elseif boundary == "national_park" then
+		Accept()
+	elseif boundary == "protected_area" then
+		if Find("leisure") == "nature_reserve" then
+			Accept()
+		elseif Find("designation") == "national_park" or Find("protection_title") == "national_park" then
 			Accept()
 		end
 	end

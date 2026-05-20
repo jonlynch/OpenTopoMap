@@ -196,6 +196,16 @@
             "filter_area": 0.5,
             "filter_below": 14
         },
+        "sites_low": {
+            "minzoom": 8,
+            "maxzoom": 12,
+            "write_to": "sites",
+            "simplify_below": 13,
+            "simplify_level": 0.00025,
+            "simplify_ratio": 3,
+            "filter_area": 1,
+            "filter_below": 13
+        },
         "pois": {
             "minzoom": 11,
             "maxzoom": 14
@@ -204,6 +214,10 @@
             "minzoom": 7,
             "maxzoom": 10,
             "write_to": "pois"
+        },
+        "natural_labels": {
+            "minzoom": 6,
+            "maxzoom": 14
         },
         "bng_lines": {
             "minzoom": 0,

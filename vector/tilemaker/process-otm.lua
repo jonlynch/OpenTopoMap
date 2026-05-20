@@ -643,6 +643,7 @@ function process_boundary_lines()
 	local min_admin_level = 99
 	local disputedBool = false
 	local is_nature_reserve = false
+	local res_name, res_name_de, res_name_en, res_name_fr, res_name_it, res_name_es = "", "", "", "", "", ""
 	while true do
 		local rel = NextRelation()
 		if not rel and min_admin_level == 99 and not is_nature_reserve then
@@ -664,16 +665,38 @@ function process_boundary_lines()
 		end
 		if (boundary == "protected_area" or boundary == "national_park") and FindInRelation("leisure") == "nature_reserve" then
 			is_nature_reserve = true
+			if res_name == "" then
+				local rn    = FindInRelation("name")    or ""
+				local rn_en = FindInRelation("name:en") or ""
+				local rn_de = FindInRelation("name:de") or ""
+				res_name    = fillWithFallback(rn, rn_en, rn_de)
+				res_name_en = (rn_en ~= "" and rn_en ~= res_name) and rn_en or ""
+				res_name_de = (rn_de ~= "" and rn_de ~= res_name) and rn_de or ""
+				res_name_fr = FindInRelation("name:fr") or ""
+				res_name_it = FindInRelation("name:it") or ""
+				res_name_es = FindInRelation("name:es") or ""
+			end
 		end
 	end
 
 	if is_nature_reserve then
+		local function writeReserveAttrs()
+			Attribute("type", "nature_reserve")
+			if res_name ~= "" then
+				Attribute("name", res_name)
+				Attribute("name:de", res_name_de)
+				Attribute("name:en", res_name_en)
+				Attribute("name:fr", res_name_fr)
+				Attribute("name:it", res_name_it)
+				Attribute("name:es", res_name_es)
+			end
+		end
 		Layer("sites_low", false)
 		MinZoom(8)
-		Attribute("type", "nature_reserve")
+		writeReserveAttrs()
 		Layer("sites", false)
 		MinZoom(8)
-		Attribute("type", "nature_reserve")
+		writeReserveAttrs()
 	end
 
 	local mz = inf_zoom

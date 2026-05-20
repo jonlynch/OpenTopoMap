@@ -218,10 +218,10 @@ const otm_layers = [
 	"metadata": {"translate": true},
 	"minzoom": 12,
 	"layout": {
+		"symbol-placement": "line-center",
 		"text-field": "{name}",
 		"text-font": ["Roboto Italic"],
 		"text-size": ["interpolate", ["linear"], ["zoom"], 10, 10, 15, 14],
-		"text-variable-anchor": ["center", "top", "bottom"],
 		"text-max-width": 8
 	},
 	"paint": {

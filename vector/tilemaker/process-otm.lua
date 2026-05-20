@@ -564,6 +564,9 @@ function process_land()
 	elseif wetland == "swamp" or wetland == "bog" or wetland == "string_bog" or wetland == "wet_meadow" or wetland == "marsh" or wetland == "reedbed" then
 		kind = wetland
 		mz = 11
+	elseif natural == "wetland" then
+		kind = "wetland"
+		mz = 10
 	elseif Find("amenity") == "grave_yard" then
 		kind = "grave_yard"
 		mz = 13
@@ -1453,7 +1456,7 @@ function process_pois(polygon)
 		if Find("disused") == "yes" or Find("abandoned") == "yes" then
 			lifecycle = "disused"
 		end
-	elseif natural == "saddle" then
+	elseif natural == "saddle" or natural == "col" or natural == "notch" then
 		type_tag = "saddle"
 		mz = 12
 		direction = Find("direction")

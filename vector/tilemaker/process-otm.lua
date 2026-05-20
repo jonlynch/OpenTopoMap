@@ -642,9 +642,10 @@ function process_boundary_lines()
 	end
 	local min_admin_level = 99
 	local disputedBool = false
+	local is_nature_reserve = false
 	while true do
 		local rel = NextRelation()
-		if not rel and min_admin_level == 99 then
+		if not rel and min_admin_level == 99 and not is_nature_reserve then
 			return
 		elseif not rel then
 			break
@@ -661,6 +662,18 @@ function process_boundary_lines()
 		if boundary == "disputed" then
 			disputedBool = true
 		end
+		if (boundary == "protected_area" or boundary == "national_park") and FindInRelation("leisure") == "nature_reserve" then
+			is_nature_reserve = true
+		end
+	end
+
+	if is_nature_reserve then
+		Layer("sites_low", false)
+		MinZoom(8)
+		Attribute("type", "nature_reserve")
+		Layer("sites", false)
+		MinZoom(8)
+		Attribute("type", "nature_reserve")
 	end
 
 	local mz = inf_zoom

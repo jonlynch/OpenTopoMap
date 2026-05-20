@@ -592,6 +592,14 @@ function process_land()
 		Attribute("type", kind)
 		if kind == "forest" then Attribute("leaf_type", leaf_type) end
 	end
+	local label_kinds = { forest=true, heath=true, scrub=true, grassland=true,
+	                      swamp=true, bog=true, string_bog=true, wet_meadow=true, marsh=true, reedbed=true }
+	if mz < inf_zoom and label_kinds[kind] and Holds("name") then
+		LayerAsCentroid("land_labels")
+		MinZoom(math.min(14, math.max(10, zmin_for_area(50, Area()))))
+		Attribute("type", kind)
+		setNameAttributes()
+	end
 end
 
 function process_sites()

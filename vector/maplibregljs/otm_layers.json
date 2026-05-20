@@ -862,14 +862,17 @@ const otm_layers = [
         "text-field": ["step", ["zoom"],
             ["get","name"],
             11, ["case",
-                ["all",
-                    ["in", ["get","type"], ["literal", ["peak","volcano","summit_cross","saddle"]]],
-                    ["has", "ele"]
-                ],
-                ["format",
-                    ["coalesce",["get","name"],""], {},
-                    "\n", {},
-                    ["to-string", ["round", ["to-number", ["get","ele"], 0]]], {"font-scale": 0.85}
+                ["in", ["get","type"], ["literal", ["peak","volcano","summit_cross","saddle"]]],
+                ["case",
+                    ["all", ["has","name"], ["has","ele"]],
+                    ["format",
+                        ["get","name"], {},
+                        "\n", {},
+                        ["to-string", ["round", ["to-number", ["get","ele"], 0]]], {"font-scale": 0.85}
+                    ],
+                    ["has","ele"],
+                    ["to-string", ["round", ["to-number", ["get","ele"], 0]]],
+                    ["get","name"]
                 ],
                 ["get","name"]
             ]

@@ -22,9 +22,9 @@ npm run build        # production build to dist/
 Vector tiles are produced with [Tilemaker](https://github.com/shortbread-tiles/shortbread-tilemaker):
 
 ```bash
-# Build vector tiles
-tilemaker --config vector/tilemaker/tilemaker-config-otm.json \
-          --process vector/tilemaker/process-otm.lua \
+# Build vector tiles (must run from vector/ so that data/ shapefile paths resolve correctly)
+cd vector && tilemaker --config tilemaker/tilemaker-config-otm.json \
+          --process tilemaker/process-otm.lua \
           --input data/region.osm.pbf \
           --output data/region.mbtiles
 

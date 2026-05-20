@@ -74,7 +74,7 @@ def main():
 
     def tier_and_label_for(coord, axis):
         if coord % 100000 == 0:
-            return '100km', ''
+            return '100km', '00'
         if coord % 10000 == 0:
             km = (coord // 1000) % 100
             return '10km', str(km).zfill(2)

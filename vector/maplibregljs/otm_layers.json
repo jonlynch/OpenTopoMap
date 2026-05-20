@@ -1080,6 +1080,31 @@ const otm_layers = [
 	}
 },
 {
+	"id": "bng-grid-100km-labels",
+	"type": "symbol",
+	"source": "opentopomap-vector",
+	"source-layer": "bng_lines",
+	"minzoom": 9,
+	"filter": ["all",
+		["==", ["get", "tier"], "100km"],
+		["!=", ["get", "label"], ""]
+	],
+	"layout": {
+		"visibility": "visible",
+		"symbol-placement": "line",
+		"symbol-spacing": 400,
+		"text-field": ["get", "label"],
+		"text-size": 12,
+		"text-rotation-alignment": "viewport",
+		"text-font": ["Roboto Bold"]
+	},
+	"paint": {
+		"text-color": "rgba(0, 55, 135, 1.0)",
+		"text-halo-color": "white",
+		"text-halo-width": 1.5
+	}
+},
+{
 	"id": "bng-grid-10km-labels",
 	"type": "symbol",
 	"source": "opentopomap-vector",

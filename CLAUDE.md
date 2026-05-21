@@ -42,6 +42,20 @@ python3 tools/compute_isolation.py \
 > PBF**; using the original extract causes all isolation lookups to miss silently, degrading
 > every peak to elevation-only zoom ordering.
 
+**Step 2.5 — Regenerate saddle direction CSV** (must be re-run after every renumber):
+
+```bash
+python3 tools/compute_saddle_directions.py \
+    --pbf osm/region-renumbered.osm.pbf \
+    --output data/saddle_directions.csv
+```
+
+> The CSV contains renumbered node IDs. The tilemaker build must consume the **same renumbered
+> PBF**. Internet access and `pip install pmtiles Pillow` are required — the default DEM source
+> is `https://pbcc.blob.core.windows.net/pbcc-pmtiles/DTM.pmtiles` (global z0–z13 PMTiles).
+> The tile cache lives under `vector/data/dem_cache/` (clear it to force a refetch). If no
+> saddles fall inside DEM coverage the script writes an empty CSV with just the header row.
+
 **Step 3 — Generate BNG grid shapefiles** (one-off; only if `data/bng-grid-4326/` is absent):
 
 ```bash

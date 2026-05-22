@@ -156,6 +156,7 @@ const otm_layers = [
 					"hop_garden",
 					"sand",
 					"beach",
+					"dune",
 					"military",
 					"tidalflat",
 					"bog",
@@ -174,6 +175,29 @@ const otm_layers = [
 				"get",
 				"type"
 			]
+		}
+	},
+	{
+		"id": "landcover-edge-blur",
+		"source": "opentopomap-vector",
+		"source-layer": "land",
+		"filter": [
+			"in",
+			["get", "type"],
+			["literal", ["marsh", "wetland", "bog"]]
+		],
+		"type": "line",
+		"paint": {
+			"line-color": [
+				"match", ["get", "type"],
+				"marsh",   "#649bd2",
+				"wetland", "#6994b9",
+				"bog",     "#506e87",
+				"#7090a8"
+			],
+			"line-width": 10,
+			"line-blur": 12,
+			"line-opacity": 0.40
 		}
 	},
 	{

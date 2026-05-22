@@ -160,569 +160,576 @@
     "height": 4,
     "pixelRatio": 1
   },
-  "dyke": {
+  "dune": {
     "x": 0,
     "y": 496,
+    "width": 36,
+    "height": 36,
+    "pixelRatio": 1
+  },
+  "dyke": {
+    "x": 0,
+    "y": 532,
     "width": 3,
     "height": 5,
     "pixelRatio": 1
   },
   "dyke_path": {
     "x": 0,
-    "y": 501,
+    "y": 537,
     "width": 3,
     "height": 6,
     "pixelRatio": 1
   },
   "dyke_track": {
     "x": 0,
-    "y": 507,
+    "y": 543,
     "width": 3,
     "height": 7,
     "pixelRatio": 1
   },
   "fell": {
     "x": 0,
-    "y": 514,
+    "y": 550,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "forest-coniferous": {
     "x": 0,
-    "y": 534,
+    "y": 570,
     "width": 110,
     "height": 120,
     "pixelRatio": 1
   },
   "forest-deciduous": {
     "x": 0,
-    "y": 654,
+    "y": 690,
     "width": 110,
     "height": 120,
     "pixelRatio": 1
   },
   "forest-outline": {
     "x": 0,
-    "y": 774,
+    "y": 810,
     "width": 3,
     "height": 3,
     "pixelRatio": 1
   },
   "forest": {
     "x": 0,
-    "y": 777,
+    "y": 813,
     "width": 110,
     "height": 120,
     "pixelRatio": 1
   },
   "golf": {
     "x": 0,
-    "y": 897,
+    "y": 933,
     "width": 9,
     "height": 11,
     "pixelRatio": 1
   },
   "grass": {
     "x": 0,
-    "y": 908,
+    "y": 944,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "grassland": {
     "x": 0,
-    "y": 928,
+    "y": 964,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "grave_yard": {
     "x": 0,
-    "y": 948,
+    "y": 984,
     "width": 9,
     "height": 10,
     "pixelRatio": 1
   },
   "hop_garden": {
     "x": 0,
-    "y": 958,
+    "y": 994,
     "width": 16,
     "height": 16,
     "pixelRatio": 1
   },
   "hospital": {
     "x": 0,
-    "y": 974,
+    "y": 1010,
     "width": 10,
     "height": 10,
     "pixelRatio": 1
   },
   "lighthouse": {
     "x": 0,
-    "y": 984,
+    "y": 1020,
     "width": 16,
     "height": 14,
     "pixelRatio": 1
   },
   "marsh": {
     "x": 0,
-    "y": 998,
+    "y": 1034,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "meadow": {
     "x": 0,
-    "y": 1034,
+    "y": 1070,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "military": {
     "x": 0,
-    "y": 1054,
+    "y": 1090,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "mineshaft": {
     "x": 0,
-    "y": 1074,
+    "y": 1110,
     "width": 15,
     "height": 14,
     "pixelRatio": 1
   },
   "mineshaft_disused": {
     "x": 0,
-    "y": 1088,
+    "y": 1124,
     "width": 15,
     "height": 14,
     "pixelRatio": 1
   },
   "monument": {
     "x": 0,
-    "y": 1102,
+    "y": 1138,
     "width": 9,
     "height": 10,
     "pixelRatio": 1
   },
   "observation_tower": {
     "x": 0,
-    "y": 1112,
+    "y": 1148,
     "width": 19,
     "height": 18,
     "pixelRatio": 1
   },
   "oneway": {
     "x": 0,
-    "y": 1130,
+    "y": 1166,
     "width": 11,
     "height": 3,
     "pixelRatio": 1
   },
   "orchard": {
     "x": 0,
-    "y": 1133,
+    "y": 1169,
     "width": 16,
     "height": 16,
     "pixelRatio": 1
   },
   "parking": {
     "x": 0,
-    "y": 1149,
+    "y": 1185,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "peak": {
     "x": 0,
-    "y": 1156,
+    "y": 1192,
     "width": 7,
     "height": 5,
     "pixelRatio": 1
   },
   "photovoltaic": {
     "x": 0,
-    "y": 1161,
+    "y": 1197,
     "width": 13,
     "height": 22,
     "pixelRatio": 1
   },
   "power_station": {
     "x": 0,
-    "y": 1183,
+    "y": 1219,
     "width": 13,
     "height": 13,
     "pixelRatio": 1
   },
   "powerline": {
     "x": 0,
-    "y": 1196,
+    "y": 1232,
     "width": 3,
     "height": 5,
     "pixelRatio": 1
   },
   "powertower": {
     "x": 0,
-    "y": 1201,
+    "y": 1237,
     "width": 5,
     "height": 5,
     "pixelRatio": 1
   },
   "quarry": {
     "x": 0,
-    "y": 1206,
+    "y": 1242,
     "width": 10,
     "height": 10,
     "pixelRatio": 1
   },
   "rail_small": {
     "x": 0,
-    "y": 1216,
+    "y": 1252,
     "width": 22,
     "height": 3,
     "pixelRatio": 1
   },
   "rail_small_service": {
     "x": 0,
-    "y": 1219,
+    "y": 1255,
     "width": 22,
     "height": 3,
     "pixelRatio": 1
   },
   "rail_small_tunnel": {
     "x": 0,
-    "y": 1222,
+    "y": 1258,
     "width": 22,
     "height": 1,
     "pixelRatio": 1
   },
   "rail_z13": {
     "x": 0,
-    "y": 1223,
+    "y": 1259,
     "width": 22,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z13_disused": {
     "x": 0,
-    "y": 1227,
+    "y": 1263,
     "width": 22,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z13_service": {
     "x": 0,
-    "y": 1231,
+    "y": 1267,
     "width": 22,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z13_tunnel": {
     "x": 0,
-    "y": 1235,
+    "y": 1271,
     "width": 22,
     "height": 2,
     "pixelRatio": 1
   },
   "rail_z14": {
     "x": 0,
-    "y": 1237,
+    "y": 1273,
     "width": 30,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z14_disused": {
     "x": 0,
-    "y": 1241,
+    "y": 1277,
     "width": 30,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z14_service": {
     "x": 0,
-    "y": 1245,
+    "y": 1281,
     "width": 30,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z14_tunnel": {
     "x": 0,
-    "y": 1249,
+    "y": 1285,
     "width": 30,
     "height": 2,
     "pixelRatio": 1
   },
   "rail_z15": {
     "x": 0,
-    "y": 1251,
+    "y": 1287,
     "width": 38,
     "height": 5,
     "pixelRatio": 1
   },
   "rail_z15_disused": {
     "x": 0,
-    "y": 1256,
+    "y": 1292,
     "width": 38,
     "height": 5,
     "pixelRatio": 1
   },
   "rail_z15_service": {
     "x": 0,
-    "y": 1261,
+    "y": 1297,
     "width": 38,
     "height": 4,
     "pixelRatio": 1
   },
   "rail_z15_tunnel": {
     "x": 0,
-    "y": 1265,
+    "y": 1301,
     "width": 38,
     "height": 3,
     "pixelRatio": 1
   },
   "railway_crossing": {
     "x": 0,
-    "y": 1268,
+    "y": 1304,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "reedbed": {
     "x": 0,
-    "y": 1275,
+    "y": 1311,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "saddle": {
     "x": 0,
-    "y": 1311,
+    "y": 1347,
     "width": 15,
     "height": 15,
     "pixelRatio": 1
   },
   "sand": {
     "x": 0,
-    "y": 1326,
+    "y": 1362,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "scree": {
     "x": 0,
-    "y": 1346,
+    "y": 1382,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "scrub": {
     "x": 0,
-    "y": 1366,
+    "y": 1402,
     "width": 75,
     "height": 75,
     "pixelRatio": 1
   },
   "shelter": {
     "x": 0,
-    "y": 1441,
+    "y": 1477,
     "width": 9,
     "height": 8,
     "pixelRatio": 1
   },
   "sinkhole": {
     "x": 0,
-    "y": 1449,
+    "y": 1485,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "small_town": {
     "x": 0,
-    "y": 1456,
+    "y": 1492,
     "width": 6,
     "height": 6,
     "pixelRatio": 1
   },
   "spring": {
     "x": 0,
-    "y": 1462,
+    "y": 1498,
     "width": 4,
     "height": 4,
     "pixelRatio": 1
   },
   "station": {
     "x": 0,
-    "y": 1466,
+    "y": 1502,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "station_subway": {
     "x": 0,
-    "y": 1473,
+    "y": 1509,
     "width": 6,
     "height": 6,
     "pixelRatio": 1
   },
   "string_bog": {
     "x": 0,
-    "y": 1479,
+    "y": 1515,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "summit_cross": {
     "x": 0,
-    "y": 1515,
+    "y": 1551,
     "width": 7,
     "height": 9,
     "pixelRatio": 1
   },
   "swamp-outline": {
     "x": 0,
-    "y": 1524,
+    "y": 1560,
     "width": 3,
     "height": 1,
     "pixelRatio": 1
   },
   "swamp": {
     "x": 0,
-    "y": 1525,
+    "y": 1561,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "swimming": {
     "x": 0,
-    "y": 1561,
+    "y": 1597,
     "width": 11,
     "height": 6,
     "pixelRatio": 1
   },
   "tidalflat": {
     "x": 0,
-    "y": 1567,
+    "y": 1603,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "tower": {
     "x": 0,
-    "y": 1587,
+    "y": 1623,
     "width": 9,
     "height": 13,
     "pixelRatio": 1
   },
   "town": {
     "x": 0,
-    "y": 1600,
+    "y": 1636,
     "width": 7,
     "height": 7,
     "pixelRatio": 1
   },
   "town_z8": {
     "x": 0,
-    "y": 1607,
+    "y": 1643,
     "width": 8,
     "height": 8,
     "pixelRatio": 1
   },
   "tree_broadleaved": {
     "x": 0,
-    "y": 1615,
+    "y": 1651,
     "width": 9,
     "height": 12,
     "pixelRatio": 1
   },
   "tree_needleleaved": {
     "x": 0,
-    "y": 1627,
+    "y": 1663,
     "width": 7,
     "height": 12,
     "pixelRatio": 1
   },
   "tumulus": {
     "x": 0,
-    "y": 1639,
+    "y": 1675,
     "width": 14,
     "height": 11,
     "pixelRatio": 1
   },
   "viewpoint": {
     "x": 0,
-    "y": 1650,
+    "y": 1686,
     "width": 17,
     "height": 17,
     "pixelRatio": 1
   },
   "vineyard": {
     "x": 0,
-    "y": 1667,
+    "y": 1703,
     "width": 20,
     "height": 20,
     "pixelRatio": 1
   },
   "water_tower": {
     "x": 0,
-    "y": 1687,
+    "y": 1723,
     "width": 9,
     "height": 13,
     "pixelRatio": 1
   },
   "watermill": {
     "x": 0,
-    "y": 1700,
+    "y": 1736,
     "width": 11,
     "height": 11,
     "pixelRatio": 1
   },
   "waterway-arrow": {
     "x": 0,
-    "y": 1711,
+    "y": 1747,
     "width": 14,
     "height": 3,
     "pixelRatio": 1
   },
   "wayside_cross": {
     "x": 0,
-    "y": 1714,
+    "y": 1750,
     "width": 7,
     "height": 8,
     "pixelRatio": 1
   },
   "weir": {
     "x": 0,
-    "y": 1722,
+    "y": 1758,
     "width": 6,
     "height": 3,
     "pixelRatio": 1
   },
   "wet_meadow": {
     "x": 0,
-    "y": 1725,
+    "y": 1761,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "wetland": {
     "x": 0,
-    "y": 1761,
+    "y": 1797,
     "width": 36,
     "height": 36,
     "pixelRatio": 1
   },
   "wilderness_hut": {
     "x": 0,
-    "y": 1797,
+    "y": 1833,
     "width": 9,
     "height": 9,
     "pixelRatio": 1
   },
   "wind_turbine": {
     "x": 0,
-    "y": 1806,
+    "y": 1842,
     "width": 15,
     "height": 20,
     "pixelRatio": 1

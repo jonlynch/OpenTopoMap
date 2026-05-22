@@ -16,10 +16,26 @@ import os
 import fiona
 from fiona.crs import CRS
 from pyproj import Transformer
+from shapely.geometry import LineString, MultiLineString, Point, Polygon
 
 E_MIN, E_MAX = 0, 700000
 N_MIN, N_MAX = 0, 1300000
 SEGMENT_M = 2000  # max segment length in OSGB36 metres before subdivision
+
+# Shared boundary polygon (WGS84). BNG lines are clipped to exclude this zone;
+# the Irish Grid generator uses the same polygon and keeps only this zone.
+# See generate_ig_grid.py for the boundary rationale.
+IRELAND_ZONE = Polygon([
+    (-10.7, 51.0),
+    (-5.5,  51.0),   # SE, Celtic Sea (west of Cornwall/Pembrokeshire)
+    (-5.5,  53.5),   # E Irish Sea (west of Anglesey -4.3°W)
+    (-5.3,  54.3),   # step east: captures Ards Peninsula (-5.43°W); IoM (-4.5°W) stays in GB
+    (-5.3,  54.7),   # hold east: Donaghadee NI (-5.53°W) in Ireland; Portpatrick (-5.12°W) in GB
+    (-5.9,  55.2),   # step west for North Channel: Kintyre (-5.78°W) in GB; Fair Head NI (-6.07°W) in Ireland
+    (-5.9,  55.45),  # N limit: above Malin Head (55.37°N), below Islay (55.6°N)
+    (-10.7, 55.45),  # NW
+    (-10.7, 51.0),   # close
+])
 
 _LETTERS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'
 
@@ -90,33 +106,48 @@ def main():
 
         writers = {'100km': f100, '10km': f10, '1km': f1}
 
+        def write_clipped(writer, coords, tier, lbl):
+            raw = LineString(coords)
+            clipped = raw.difference(IRELAND_ZONE)
+            if clipped.is_empty:
+                return 0
+            geoms = (
+                [clipped] if isinstance(clipped, LineString)
+                else list(clipped.geoms) if isinstance(clipped, MultiLineString)
+                else [g for g in clipped.geoms if isinstance(g, LineString)]
+            )
+            written = 0
+            for geom in geoms:
+                if geom.is_empty or len(geom.coords) < 2:
+                    continue
+                writer.write({
+                    'geometry': {'type': 'LineString', 'coordinates': list(geom.coords)},
+                    'properties': {'tier': tier, 'label': lbl},
+                })
+                written += 1
+            return written
+
         # Vertical lines: constant easting, full N extent
         for e in range(E_MIN, E_MAX + 1, 1000):
             tier, lbl = tier_and_label_for(e, 'e')
             coords = _to_wgs84(_subdivide(e, N_MIN, e, N_MAX), transformer)
-            writers[tier].write({
-                'geometry': {'type': 'LineString', 'coordinates': coords},
-                'properties': {'tier': tier, 'label': lbl},
-            })
-            counts[tier] += 1
+            counts[tier] += write_clipped(writers[tier], coords, tier, lbl)
 
         # Horizontal lines: constant northing, full E extent
         for n in range(N_MIN, N_MAX + 1, 1000):
             tier, lbl = tier_and_label_for(n, 'n')
             coords = _to_wgs84(_subdivide(E_MIN, n, E_MAX, n), transformer)
-            writers[tier].write({
-                'geometry': {'type': 'LineString', 'coordinates': coords},
-                'properties': {'tier': tier, 'label': lbl},
-            })
-            counts[tier] += 1
+            counts[tier] += write_clipped(writers[tier], coords, tier, lbl)
 
     label_path = os.path.join(out_dir, 'bng_grid_labels.shp')
     label_count = 0
     with fiona.open(label_path, 'w', driver='ESRI Shapefile', schema=label_schema, crs=crs) as flbl:
         for e in range(E_MIN, E_MAX, 100000):
             for n in range(N_MIN, N_MAX, 100000):
-                lbl = _letters(e, n)
                 lon, lat = transformer.transform(e + 2000, n + 2000)
+                if IRELAND_ZONE.contains(Point(lon, lat)):
+                    continue
+                lbl = _letters(e, n)
                 flbl.write({
                     'geometry': {'type': 'Point', 'coordinates': (lon, lat)},
                     'properties': {'label': lbl},

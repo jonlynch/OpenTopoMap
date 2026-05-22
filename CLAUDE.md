@@ -56,11 +56,14 @@ python3 tools/compute_saddle_directions.py \
 > The tile cache lives under `vector/data/dem_cache/` (clear it to force a refetch). If no
 > saddles fall inside DEM coverage the script writes an empty CSV with just the header row.
 
-**Step 3 — Generate BNG grid shapefiles** (one-off; only if `data/bng-grid-4326/` is absent):
+**Step 3 — Generate BNG and Irish Grid shapefiles** (one-off; re-run if absent or boundary changes):
 
 ```bash
 python3 tools/generate_bng_grid.py
+python3 tools/generate_ig_grid.py
 ```
+
+Both scripts require `shapely` (`pip install shapely`). The two grids share a common Irish Sea boundary polygon so there is no overlap: BNG covers Great Britain (including the Isle of Man) and IG covers Ireland (Republic + Northern Ireland). Output directories are `data/bng-grid-4326/` and `data/ig-grid-4326/` respectively. Irish Grid square labels use the single-letter format (e.g. `L`), matching the `L1234567890` reference convention.
 
 **Step 4 — Build vector tiles**:
 

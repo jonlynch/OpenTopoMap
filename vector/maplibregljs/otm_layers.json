@@ -5181,6 +5181,64 @@ const otm_layers = [
 		}
 	},
 	{
+		"id": "suburb",
+		"source": "opentopomap-vector",
+		"source-layer": "place_labels",
+		"metadata": {
+			"translate": true
+		},
+		"filter": [
+			"all",
+			[
+				"in",
+				"type",
+				"suburb",
+				"quarter",
+				"neighbourhood",
+				"island",
+				"locality",
+				"hamlet",
+				"isolated_dwelling",
+				"farm"
+			]
+		],
+		"type": "symbol",
+		"minzoom": 12,
+		"layout": {
+			"text-field": "{name}",
+			"text-size": [
+				"interpolate",
+				[
+					"linear"
+				],
+				[
+					"zoom"
+				],
+				12,
+				9,
+				16,
+				11
+			],
+			"text-variable-anchor": [
+				"bottom-left",
+				"center",
+				"right",
+				"bottom",
+				"bottom-right",
+				"top-left",
+				"top",
+				"top-right"
+			],
+			"text-font": [
+				"Roboto Regular"
+			]
+		},
+		"paint": {
+			"text-halo-color": "white",
+			"text-halo-width": 1.5
+		}
+	},
+	{
 		"id": "poi-texts",
 		"source": "opentopomap-vector",
 		"source-layer": "pois",
@@ -5394,64 +5452,6 @@ const otm_layers = [
 		"paint": {
 			"text-color": "#444444",
 			"text-halo-color": "rgba(255,255,255,0.8)",
-			"text-halo-width": 1.5
-		}
-	},
-	{
-		"id": "suburb",
-		"source": "opentopomap-vector",
-		"source-layer": "place_labels",
-		"metadata": {
-			"translate": true
-		},
-		"filter": [
-			"all",
-			[
-				"in",
-				"type",
-				"suburb",
-				"quarter",
-				"neighbourhood",
-				"island",
-				"locality",
-				"hamlet",
-				"isolated_dwelling",
-				"farm"
-			]
-		],
-		"type": "symbol",
-		"minzoom": 12,
-		"layout": {
-			"text-field": "{name}",
-			"text-size": [
-				"interpolate",
-				[
-					"linear"
-				],
-				[
-					"zoom"
-				],
-				10,
-				10,
-				13,
-				11
-			],
-			"text-variable-anchor": [
-				"bottom-left",
-				"center",
-				"right",
-				"bottom",
-				"bottom-right",
-				"top-left",
-				"top",
-				"top-right"
-			],
-			"text-font": [
-				"Roboto Regular"
-			]
-		},
-		"paint": {
-			"text-halo-color": "white",
 			"text-halo-width": 1.5
 		}
 	},

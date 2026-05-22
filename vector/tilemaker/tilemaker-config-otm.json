@@ -248,6 +248,32 @@
             "maxzoom": 14,
             "source": "data/bng-grid-4326/bng_grid_labels.shp",
             "source_columns": true
+        },
+        "ig_lines": {
+            "minzoom": 0,
+            "maxzoom": 14,
+            "source": "data/ig-grid-4326/ig_grid_lines_100km.shp",
+            "source_columns": true
+        },
+        "ig_lines_10km": {
+            "minzoom": 8,
+            "maxzoom": 14,
+            "source": "data/ig-grid-4326/ig_grid_lines_10km.shp",
+            "source_columns": true,
+            "write_to": "ig_lines"
+        },
+        "ig_lines_1km": {
+            "minzoom": 11,
+            "maxzoom": 14,
+            "source": "data/ig-grid-4326/ig_grid_lines_1km.shp",
+            "source_columns": true,
+            "write_to": "ig_lines"
+        },
+        "ig_labels": {
+            "minzoom": 0,
+            "maxzoom": 14,
+            "source": "data/ig-grid-4326/ig_grid_labels.shp",
+            "source_columns": true
         }
     },
     "settings": {

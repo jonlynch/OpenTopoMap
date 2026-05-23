@@ -94,6 +94,21 @@ To add a new icon:
 2. If the icon has an SVG source, render it at 2× into `vector/maplibregljs/otm_symbols_2x/` with `cairosvg <file.svg> -o otm_symbols_2x/<name>.png --scale 2`
 3. Re-run the sprite generation command above
 
+```bash
+# Generate contour shapefiles from Mapterhorn DEM tiles
+python3 tools/generate_contours.py \
+    --pbf osm/region-renumbered.osm.pbf \
+    --output-dir data/contours \
+    --dem-zoom 12 \
+    --cache-dir data/dem_cache
+```
+
+> Requires `gdal-bin` (for `gdal_contour`, `gdalbuildvrt`), `fiona`, `shapely`, `requests`, `Pillow`, `numpy`.
+> Fetches Terrarium-encoded DEM tiles from Mapterhorn, decodes to GeoTIFF, assembles a VRT, and runs
+> `gdal_contour` at 10m/20m/50m intervals. Outputs shapefiles in `data/contours/` consumed by the
+> tilemaker config. The DEM tile cache in `data/dem_cache/` persists across builds — subsequent runs
+> skip the download. The `--dem-zoom` flag controls resolution (z12 ≈ 19m/px at 50°N).
+
 ### Raster tile rendering (mapnik/, legacy)
 
 The raster pipeline requires PostgreSQL/PostGIS with osm2pgsql imports, plus DEM-derived hillshade and contour GeoTIFFs generated via GDAL. The main style is `mapnik/opentopomap.xml`. Render via renderd (mod_tile) or:

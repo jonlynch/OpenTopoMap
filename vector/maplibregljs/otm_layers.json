@@ -272,8 +272,9 @@ const otm_layers = [
 	{
 		"id": "contour-lines",
 		"type": "line",
-		"source": "contour-source",
+		"source": "opentopomap-vector",
 		"source-layer": "contours",
+		"minzoom": 10,
 		"paint": {
 			"line-color": "rgba(196,87,0,0.7)",
 			"line-width": [
@@ -291,8 +292,9 @@ const otm_layers = [
 	{
 		"id": "contour-labels",
 		"type": "symbol",
-		"source": "contour-source",
+		"source": "opentopomap-vector",
 		"source-layer": "contours",
+		"minzoom": 10,
 		"filter": [
 			"case",
 			[

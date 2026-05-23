@@ -1,3 +1,5 @@
 mapnik/tools/saddledirection
 vector/data/dem_cache/
+vector/data/dem_geotiffs/
+vector/data/contours/
 vector/data/saddle_directions.csv

@@ -90,6 +90,16 @@ python3 tools/compute_saddle_directions.py \
     --output data/saddle_directions.csv
 
 # ---------------------------------------------------------------------------
+# Step 3.5: Generate contour shapefiles from Mapterhorn DEM
+# ---------------------------------------------------------------------------
+echo "=== Generating contour shapefiles ==="
+python3 tools/generate_contours.py \
+    --pbf "$RENUMBERED" \
+    --output-dir data/contours \
+    --dem-zoom 12 \
+    --cache-dir data/dem_cache
+
+# ---------------------------------------------------------------------------
 # Step 4: Build vector tiles
 # ---------------------------------------------------------------------------
 if $DEV_MODE; then

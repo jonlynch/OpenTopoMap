@@ -4,7 +4,7 @@
 #              rebuild vector tiles, and restart the tile server.
 #
 # Usage:
-#   ./rebuild.sh <pbf-url> [--skip-download] [--dev] [--no-server-restart]
+#   ./rebuild.sh <pbf-url> [--skip-download] [--dev] [--no-server-restart] [--threads N]
 #
 # By default produces PMTiles (suitable for static / CDN serving).
 # Pass --dev to produce MBTiles and restart the local tilemaker-server instead.
@@ -30,6 +30,7 @@ SERVER_PORT="${TILEMAKER_SERVER_PORT:-8080}"
 SKIP_DOWNLOAD=false
 DEV_MODE=false
 RESTART_SERVER=false
+THREADS=1
 
 # ---------------------------------------------------------------------------
 # Parse arguments
@@ -40,6 +41,7 @@ while [[ $# -gt 0 ]]; do
         --skip-download)     SKIP_DOWNLOAD=true; shift ;;
         --dev)               DEV_MODE=true; RESTART_SERVER=true; shift ;;
         --no-server-restart) RESTART_SERVER=false; shift ;;
+        --threads)           THREADS="$2"; shift 2 ;;
         -*) echo "Unknown option: $1" >&2; exit 1 ;;
         *)  URL="$1"; shift ;;
     esac
@@ -102,7 +104,7 @@ tilemaker \
     --input "$RENUMBERED" \
     --output "$OUTPUT" \
     --compact \
-    --threads 1
+    --threads "$THREADS"
 echo "Build complete."
 
 # ---------------------------------------------------------------------------

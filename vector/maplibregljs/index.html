@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
 	<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
-    <script src="maplibre-grid.js"></script>
+	<script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
 
 	<script src="https://unpkg.com/maplibre-contour@0.1.0/dist/index.min.js"></script>
 		
@@ -170,6 +170,9 @@
 	});
 	demSource.setupMaplibre(maplibregl);
 
+	const pmtilesProtocol = new pmtiles.Protocol();
+	maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile.bind(pmtilesProtocol));
+
     const map = new maplibregl.Map({
         container: 'map',
         style: {
@@ -181,9 +184,7 @@
 				'opentopomap-vector': {
 					'type': 'vector',
 					'lineMetrics': true,
-					'tiles': [
-						'https://opentopomap.org/otm/{z}/{x}/{y}.pbf'
-					],
+					'tiles': ['http://localhost:8080/{z}/{x}/{y}.pbf'],
 					'maxzoom': 14,
 					'attribution': 'Map style: © OpenTopoMap, Map data © OpenStreetMap contributors'
 				},
@@ -243,8 +244,8 @@
                         'Map tiles by <a target="_blank" href="https://opentopomap.org">OpenStreetMap</a>. Data &copy; <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> contributors'
                 }
             },
-            'glyphs': "https://fonts.undpgeohub.org/fonts/{fontstack}/{range}.pbf",
-            'sprite': "https://opentopomap.org/vector/otm_sprite",
+            'glyphs': "http://localhost:9001/fonts/{fontstack}/{range}.pbf",
+            'sprite': "http://localhost:9001/otm_sprite",
             'layers': otm_layers,
             'sky': {
                 "sky-color": "#199EF3",
@@ -261,23 +262,13 @@
                 'color': '#AAAAAA'
             }
         },
-        center: [17.3, 47.6],
-        zoom: 5,
+        center: [-2.0, 54.0],
+        zoom: 6,
         hash: true
     });
     
     //map.setStyle("otm-vector");
 	
-    const grid = new MaplibreGrid.Grid({
-		  gridWidth: 10,
-		  gridHeight: 10,
-		  units: 'degrees',
-		  paint: {
-			'line-opacity': 0.2
-		  }
-	});
-	map.addControl(grid);
-    
     //map.scrollZoom.setWheelZoomRate(1);
 
     map.addControl(new maplibregl.NavigationControl({visualizePitch:true, showZoom:true, showCompass:true}), 'top-left');

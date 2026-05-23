@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
 	<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
+	<script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
 
 	<script src="https://unpkg.com/maplibre-contour@0.1.0/dist/index.min.js"></script>
 		
@@ -169,6 +170,9 @@
 	});
 	demSource.setupMaplibre(maplibregl);
 
+	const pmtilesProtocol = new pmtiles.Protocol();
+	maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile.bind(pmtilesProtocol));
+
     const map = new maplibregl.Map({
         container: 'map',
         style: {
@@ -180,9 +184,7 @@
 				'opentopomap-vector': {
 					'type': 'vector',
 					'lineMetrics': true,
-					'tiles': [
-						'http://localhost:8080/{z}/{x}/{y}.pbf'
-					],
+					'tiles': ['http://localhost:8080/{z}/{x}/{y}.pbf'],
 					'maxzoom': 14,
 					'attribution': 'Map style: © OpenTopoMap, Map data © OpenStreetMap contributors'
 				},

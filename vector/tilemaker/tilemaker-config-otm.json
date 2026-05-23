@@ -274,6 +274,32 @@
             "maxzoom": 14,
             "source": "data/ig-grid-4326/ig_grid_labels.shp",
             "source_columns": true
+        },
+        "contours": {
+            "minzoom": 12,
+            "maxzoom": 14,
+            "source": "data/contours/contours_10m.shp",
+            "source_columns": true,
+            "simplify_below": 14,
+            "simplify_level": 0.00005
+        },
+        "contours_20m": {
+            "minzoom": 11,
+            "maxzoom": 11,
+            "source": "data/contours/contours_20m.shp",
+            "source_columns": true,
+            "write_to": "contours",
+            "simplify_below": 12,
+            "simplify_level": 0.0002
+        },
+        "contours_50m": {
+            "minzoom": 10,
+            "maxzoom": 10,
+            "source": "data/contours/contours_50m.shp",
+            "source_columns": true,
+            "write_to": "contours",
+            "simplify_below": 11,
+            "simplify_level": 0.0005
         }
     },
     "settings": {

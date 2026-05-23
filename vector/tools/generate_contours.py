@@ -249,6 +249,9 @@ def postprocess_shapefile(raw_shp, output_shp, level_mod):
                     skipped += 1
                     continue
 
+                # Reverse line direction so labels read uphill (cartographic convention)
+                geom = geom.reverse()
+
                 level = 1 if ele % level_mod == 0 else 0
 
                 dst.write({
